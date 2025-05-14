@@ -1,0 +1,50 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 7
+message RegexLlmParser {
+  // Find vs replace block keys.
+  optional string find = 1 [default = "Find"];
+  optional string replace = 2 [default = "Replace"];
+
+  // Find vs replace block start and end regex.
+  optional string block_start = 3 [default = "\\[{regex} Start\\]"];
+  optional string block_end = 4 [default = "\\[{regex} End\\]"];
+
+  // For python files: It should be `rstrip` only and NOT `lstrip`.
+  optional bool strip = 5 [default = true];
+  optional bool rstrip = 6 [default = true];
+
+  optional bool require_same_num_blocks = 7 [default = true];
+}
+
+// NextId: 3
+message LlmParser {
+  oneof parser {
+    RegexLlmParser regex_llm_parser = 1;
+  }
+  optional bool enable_feedback = 2 [default = true];
+}
+
+
+// NextId: 4
+message RegexLlmParserByGroup {
+  optional string group = 1 [default = "Change"];
+
+  optional string regex_group_start = 2 [default = "\\[{regex} Start [^\\]]+\\]"];
+  optional string regex_group_end = 3 [default = "\\[{regex} End [^\\]]+\\]"];
+}
+
+// NextId: 5
+message LlmParserByGroup {
+  oneof parser {
+    RegexLlmParserByGroup regex_llm_parser_by_group = 1;
+  }
+  optional LlmParser block_parser = 2;
+
+  optional bool enable_feedback = 3 [default = true];
+  // Assuming group is the filename, make sure it exists, or replace `.` in dir name as `/`.
+  optional bool maybe_rewrite_group_as_file = 4 [default = true];
+}

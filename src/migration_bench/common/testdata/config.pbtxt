@@ -1,0 +1,64 @@
+llm_agent {
+  bedrock_runtime_llm_agent {
+    region {
+      region_option: US_EAST_1
+    }
+    model {
+      model_option: AWS_CLAUDE_3_SONNET
+      # top_k: 1000
+      # top_p: 0.5        # 0.999
+      # temperature: 0.5  # 1.
+      max_tokens: 4096    # 1024
+    }
+  }
+}
+dataset {
+  dataset_repo {
+    # root_dir: ""
+    # project: ""
+    github_repo {
+      filename_json: "../dataset/csharp_00_core-to-core--first10.json"
+    }
+  }
+  dataset_filter {
+    dir_start_index: 0
+    #  dir_end_index: 0
+    every_n: 2
+  }
+}
+repo {
+  root_dir: "/Users/sliuxl/TestProjects/net48"
+  source_branch: "ported"
+  branch: "{source_branch}-{timestamp}--max{max_iterations}"
+  git_clean: true
+  git_restore: true
+}
+builder {
+  maven_builder {
+    root_dir: "{root_dir}"  # Copy from repo.root_dir
+    # build_command: "cd {root_dir}; mvn clean verify"
+  }
+}
+prompt_manager {
+  template_prompt_manager {
+    # template_prompt: "Hello: Why is the sky blue?"
+    template_prompt_file: "testdata/template_prompt.txt"
+  }
+}
+llm_parser_by_group {
+  regex_llm_parser_by_group {
+    group: "Change"
+    regex_group_start: "\\[{regex} Start [^\]]+\\]"
+    regex_group_end: "\\[{regex} End [^\]]+\\]"
+  }
+  block_parser {
+    regex_llm_parser {
+      find: "Find"
+      replace: "Replace"
+
+      # block_start: "\\[{regex} Start <[^>]+>\\]"
+      # block_end: "\\[{regex} End <[^>]+>\\]"
+    }
+  }
+}
+# max_iterations: 50

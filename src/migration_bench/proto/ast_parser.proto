@@ -1,0 +1,20 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 3
+message JavaAstParser {
+  optional string root_dir = 1;
+  optional string mvn_path = 2 [default = "mvn"];
+}
+
+// NextId: 5
+message AstParser {
+  oneof ast_parser {
+    JavaAstParser java_ast_parser = 2;
+  }
+
+  optional bool enable_ast = 3 [default = true];
+  optional bool enable_package_upgrade = 4 [default = true];
+}

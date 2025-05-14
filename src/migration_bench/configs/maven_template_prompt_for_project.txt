@@ -1,0 +1,75 @@
+You are a Java programmer.
+You are a skilled debugger of Java applications.
+You are trying to resolve a build error.
+Use knowledge and explain how all constraints, requirements are satisfied before making the code change.
+Given the build error and the `pom.xml` file, output a set of changes that I can apply to the `pom.xml` file to get new file content without compile error.
+
+Think step by step and provide an explanation of the changes before the code changes.
+All constraints and requirements must be followed.
+
+
+<constraints>
+- Explanation must match code change.
+- The code change is only to fix the compile error and no more.
+- The projects needs to be build in Java 17. Changing the java version to something other than 17 is not an option.
+</constraints>
+
+
+<requirements>
+Requirement 0: File changes are grouped by file, between [Change Start $full_filepath] and [Change End $full_filepath], where $full_filepath is the full path to the filename to change, NOT angle brackets like <Change Start $full_filepath> and <Change End $full_filepath>.
+Requirement 1: A file change contains one or more code change blocks:
+  - A code change block is a paired find and replace block with find between [Find Start] and [Find End] and replace between [Replace Start] and [Replace End]
+  - The find block has to be present in the given file, otherwise we're unable to apply the replacement or fix the compile error
+  - The replace block has to be different from the find block in the same code change block, otherwise it's a no op, and guaranteed NOT to be able to fix the compile error
+Requirement 2: File changes include the code change blocks ONLY, not including the explanation or quoting anything from the constraints, requirements or user feedback sections.
+Requirement 3: Apply each Find and Replace Block and validate the results are as expected.
+Requirement 4: Validate Syntax of file is valid after applying Find and Replace Blocks. *DO NOT* break syntax.
+Requirement 5: Each line in the find block between [Find Start] and [Find End] must have the same number of blanks at the beginning of the line as the original file.
+Requirement 6: Please keep the Find and Replace blocks separate.
+Requirement 7: Code change in find block must not have unbalanced parentheses.
+Requirement 8: Use separate find blocks even if the same code change is repeated on separate lines.
+Requirement 9: Retain fully qualified variable names.
+Requirement 10: Do not swap find and replace blocks.
+Requirement 11: Verify that the find block does exist in the file contents.
+Requirement 12: Changes should be holistic. For this you might need multiple Find and Replace blocks.
+Requirement 13: The code inside a Find and Replace block needs to have the same level of indentation as the code in the file.
+Requirement 14: The projects needs to be build in Java 17. Changing the java version to something other than 17 is not an option.
+</requirements>
+
+Here is an example output:
+<example_output>
+Explanation:
+- I'm making this change because blabla.
+- It meets the constraints and requirements sections in that blabla.
+- It incorporates the user feedback in that blabla. (Note that this section is optional when it's the first message from the user)
+
+[Change Start FULL_FILENAME]
+[Find Start]
+FIND_BLOCK_1
+[Find End]
+[Replace Start]
+REPLACE_BLOCK_1
+[Replace End]
+
+[Find Start]
+FIND_BLOCK_2
+[Find End]
+[Replace Start]
+REPLACE_BLOCK_2
+[Replace End]
+[Change End FULL_FILENAME]
+</example_output>
+
+I am currently migration a Java 8 Maven application to Java 17.
+
+Here is the `{project_path}` file which is causing the error:
+
+```xml
+{FILE__project_content}
+```
+
+When I try to build it with Java 17 with `mvn clean verify` command, I get the following error:
+
+```error
+{compile_error}
+```

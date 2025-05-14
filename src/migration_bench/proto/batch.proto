@@ -1,0 +1,127 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 6
+message EC2 {
+  optional int32 cores = 1 [default = 4];
+  optional string memory = 2 [default = "16G"];
+  optional string disk = 3 [default = "100G"];
+
+  optional int32 instances = 4 [default = 1];
+  optional int32 min_instances = 5 [default = 1];
+}
+
+
+// NextId: 7
+message Script {
+  optional string name = 1;
+  optional string binary = 2;
+  repeated string args = 3;
+
+  optional bool disable = 4;
+  optional bool dry_run = 5;
+
+  optional EC2 ec2 = 6;
+}
+
+
+// NextId: 5
+message Logging {
+  //  Log to cloud watch.
+  optional bool enable_cloud_watch = 1;
+  optional string driver = 2 [default = "STDERR, STDOUT"];
+  optional string executor = 3 [default = "STDERR, STDOUT"];
+
+  //  Log to s3.
+  optional string s3_uri = 4;
+}
+
+
+// NextId: 6
+message CloudWatchMetrics {
+  // Publish metrics to cloud watch.
+  optional bool enable_cloud_watch = 1;
+
+  optional string namespace = 2 [default = "EMRServerless"];
+  // Prefix for the metric names, not for dimensions.
+  repeated string prefixes = 3;
+
+  // NextId: 3
+  message CwDimensions {
+    optional string prefix = 2;
+    map<string, string> dimension_map = 1;
+  }
+
+  optional CwDimensions shared_cw_dimensions = 4;
+  repeated CwDimensions extra_cw_dimensions = 5;
+}
+
+
+// NextId: 8
+message Monitor {
+  optional CloudWatchMetrics cloud_watch_metrics = 7;
+
+  // Use `cloud_watch_metrics` instead.
+  // To deprecate: BEGIN.
+  //  Publish metrics to cloud watch.
+  optional bool enable_cloud_watch = 1;
+
+  optional string namespace = 2 [default = "EMRServerless"];
+  optional string prefix = 3;
+  // To deprecate: END.
+
+ // Whether to enable them.
+  optional bool ast_parser = 4;
+  optional bool builder = 5;
+  optional bool debugger = 6 [default = true];
+}
+
+
+// NextId: 7
+message EMRServerless {
+  // NextId: 9
+  message Application {
+    // Application: Whether to reuse existing applications with the same name.
+    optional string name = 1 [default = "emrs-{user}--{date}--run00"];
+    optional bool new = 2 [default = false];
+
+    optional string emr_version = 3 [default = "emr-7.0.0"];
+    optional string emr_application_type = 4 [default = "SPARK"];
+
+    optional string image_uri = 5;
+
+    repeated string subnet_ids = 6;
+    repeated string security_group_ids = 7;
+
+    optional Logging logging = 8;
+    optional Monitor monitor = 9;
+  }
+
+  // NextId: 6
+  message Job {
+    optional string name = 1 [default = "{user}-{script_name}-{timestamp}--nodes{instances}m{min_instances}x{cores}-{disk}{tag}"];
+    optional string role = 2;
+    optional int32 time_out_minutes = 5 [default = 720];  // 12h
+
+    optional EC2 driver = 3;
+    optional EC2 worker = 4;
+  }
+
+  optional Application application = 1;
+  optional Job job = 2;
+
+  repeated Script scripts = 3;
+}
+
+
+// NextId: 4
+message BatchJob {
+  optional string user = 1;
+  optional string region = 3 [default = "us-east-1"];
+
+  oneof batch {
+    EMRServerless emr_serverless = 2;
+  }
+}

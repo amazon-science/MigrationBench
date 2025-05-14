@@ -1,0 +1,150 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 4
+message State {
+  optional string root_dir = 1;
+
+  optional string branch = 2;
+  optional string commit_id = 3;
+}
+
+
+// NextId: 7
+message BuildError {
+  optional string filename = 1;
+  optional string project = 2;
+
+  optional string error_code = 3;
+  optional string error_message = 4;
+
+  optional int32 line_number = 5;
+  optional int32 column_number = 6;
+}
+
+
+// NextId: 7
+message BuildAction {
+  optional State state = 1;
+
+  optional string cwd = 2;
+  optional string cmd = 3;
+
+  optional int32 num_errors = 4;
+  optional BuildError first_error = 5;
+  // All build errors excluding the first one `first_error`.
+  repeated BuildError errors = 6;
+}
+
+
+// NextId: 3
+message RuleAction {
+  optional State state = 1;
+  optional State new_state = 2;
+}
+
+
+// NextId: 4
+message Prompt {
+  // NextId: 3
+  message PromptMessages {
+    // Role for the first message.
+    optional string role = 1 [default = "user"];
+    repeated string messages = 2;
+  }
+
+  optional string system_prompt = 1;
+  oneof llm_prompt {
+    string prompt = 2;
+    PromptMessages prompt_messages = 3;
+  }
+}
+
+
+// NextId: 4
+message LlmAction {
+  optional Prompt prompt = 1;
+
+  // NextId: 3
+  message LlmError {
+    optional string error_type = 1;
+    optional string error = 2;
+  }
+
+  oneof llm_response {
+    string response = 2;
+    LlmError llm_error = 3;
+  }
+}
+
+
+// NextId: 7
+message GitAction {
+  // NextId: 5
+  enum GitOption {
+    UNKNOWN = 0;
+
+    // +++
+    ADD_ALL = 1;
+    COMMIT = 2;
+    COMMIT_ALL = 3;
+
+    // ---
+    REVERT = 4;
+  }
+
+  optional State state = 1;
+  optional State new_state = 2;
+
+  repeated string filenames = 3;
+
+  optional GitOption git_option = 4;
+  optional string commit_message = 5;
+  optional string revert_message = 6;
+}
+
+
+// NextId: 8
+message Action {
+  // NextId: 6
+  enum ActionOption {
+    UNKNOWN = 0;
+
+    NONE = 1;
+
+    BUILD = 2;
+    RULE = 3;
+    LLM = 4;
+    GIT = 5;
+  }
+
+  optional State state = 1;
+  optional State new_state = 2;
+
+  optional ActionOption action_option = 3;
+  oneof ac {
+    BuildAction build_action = 4;
+    RuleAction rule_action = 5;  // State change
+    LlmAction llm_action = 6;
+    GitAction git_action = 7;    // State change
+  }
+}
+
+
+// NextId: 5
+message Trajectory {
+  optional string root_dir = 1;
+  optional string project = 2;
+
+  optional int32 max_iterations = 3;
+
+  // NextId: 3
+  message Step {
+    optional int32 iteration = 1;
+    optional Action action = 2;
+  }
+
+  repeated Step steps = 4;
+}

@@ -1,0 +1,45 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 9
+message CloudWatchMetric {
+  optional string name = 1;
+  oneof value {
+    int32 int_value = 2;
+    float float_value = 3;
+  }
+  optional string unit = 4;
+
+  // Exact time.
+  optional string timestamp = 5;
+  optional string timezone = 6 [default = "America/Los_Angeles"];
+
+  optional bool publish = 7;
+  optional string comment = 8;
+}
+
+
+// NextId: 5
+message CloudWatchMetrics {
+  // Publish metrics to cloud watch.
+  optional bool publish = 1;
+
+  optional string namespace = 2 [default = "EMRServerless"];
+
+  // NextId: 3
+  message CwDimensions {
+    map<string, string> dimension_map = 1;
+    optional string timestamp = 2;
+  }
+
+  optional CwDimensions cw_dimensions = 3;
+  repeated CloudWatchMetric metrics = 4;
+}
+
+
+// NextId: 2
+message Config {
+  optional CloudWatchMetrics cloud_watch_metrics = 1;
+}
