@@ -1,0 +1,103 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 4
+message LocalRepo {
+  optional string root_dir = 1;
+
+  oneof dataset {
+    string filename_pbtxt = 2;
+    string filename_json = 3;
+  }
+}
+
+// NextId: 5
+message S3Repo {
+  optional string root_dir = 1;
+
+  optional string s3_dir = 2;
+
+  oneof dataset {
+    string filename_pbtxt = 3;
+    string filename_json = 4;
+  }
+}
+
+// NextId: 8
+message GithubRepo {
+  optional string root_dir = 1;
+
+  optional string name = 7;
+  optional string github_url = 2;
+  optional string branch = 3;
+  optional string commit_id = 4;
+
+  oneof dataset {
+    string filename_pbtxt = 5;
+    string filename_json = 6;
+  }
+}
+
+
+// NextId: 8
+// Repos.
+message DatasetRepo {
+  optional string root_dir = 1;
+  optional string project = 2;
+
+  oneof repo {
+    LocalRepo local_repo = 3;
+    S3Repo s3_repo = 4;
+    GithubRepo github_repo = 5;
+  }
+
+  optional bool ported = 6 [default= true];
+  optional bool apply_seed_changes = 7;
+}
+
+
+// NextId: 7
+message DatasetFilter {
+  // Filter by dir index.
+  optional int32 dir_start_index = 1;
+  optional int32 dir_end_index = 2;
+  oneof dir {
+    int32 first_n = 3;
+    int32 last_n = 4;
+    int32 every_n = 5;
+  }
+
+  // Filter by project.
+  optional bool filter_by_project_name = 6 [default = true];
+}
+
+
+// NextId: 3
+message DatasetPartition {
+  optional int32 partition_repos = 1;
+  optional int32 partition_projects = 2;
+}
+
+
+// NextId: 7
+message Dataset {
+  enum HuggingfaceOption {
+    UNKNOWN = 0;
+
+    // https://huggingface.co/datasets/AmazonScience/migration-bench-java-full
+    MIGRATION_BENCH_JAVA_FULL = 1;
+    MIGRATION_BENCH_JAVA_SELECTED = 2;
+    MIGRATION_BENCH_JAVA_UTG = 3;
+  }
+  optional DatasetRepo dataset_repo = 1;
+  // `hf_option` is an alternative to specify a list of repos as `dataset_repos`.
+  repeated DatasetRepo dataset_repos = 2;
+  optional HuggingfaceOption hf_option = 6;
+  optional DatasetFilter dataset_filter = 3;
+
+  optional DatasetPartition dataset_partition = 4;
+  // Seed changes for code migration.
+  optional bool apply_seed_changes = 5;
+}

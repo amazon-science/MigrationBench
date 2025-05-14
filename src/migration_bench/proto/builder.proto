@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 8
+message MavenBuilder {
+  optional string root_dir = 1;
+  optional string jdk_path = 2;
+
+  optional string build_command = 3 [default = "cd {root_dir}; mvn clean verify"];
+  optional string build_command_sanity_check = 4 [default = "mvn --version"];
+  optional bool require_maven_installed = 5 [default = true];
+
+  optional bool require_test_class_and_method_invariance = 6 [default = true];
+  optional string source_branch = 7;
+}
+
+// NextId: 12
+message Builder {
+  oneof builder {
+    MavenBuilder maven_builder = 2;
+  }
+
+  // NextId: 5
+  enum BuildErrorChangeOption {
+    UNKNOWN = 0;
+
+    // Required to be different from previous build errors.
+    ERRORS_DIFFERENT_FROM_BEFORE = 1;
+    // A 1:1 swap for the first error, while all other errors stay the same: Avoid partial fixes.
+    ERRORS_NOT_A_SWAP = 4;
+    // Required to be non-increasing comparing with previous build errors:
+    //  - Current build errors has to be a proper subset of the previous one, while
+    //  - Except the one that was worked on, which may disappear, or change to a different error.
+    ERRORS_NON_INCREASING = 2;
+    // Required to be decreasing comparing with previous build errors:
+    //  - Current build errors has to be a proper subset of the previous one.
+    ERRORS_DECREASING = 3;
+  }
+
+  // Whether to enable feedback, comparing previous vs current build errors.
+  optional bool enable_feedback = 3;
+  optional BuildErrorChangeOption build_error_change_option = 4 [default = ERRORS_DIFFERENT_FROM_BEFORE];
+  optional bool enable_reflection = 9;
+  optional int32 max_context_files = 11;
+}

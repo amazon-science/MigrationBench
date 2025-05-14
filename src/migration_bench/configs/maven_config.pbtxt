@@ -1,0 +1,73 @@
+llm_agent {
+  bedrock_runtime_llm_agent {
+    region {
+      region_option: US_EAST_1
+    }
+    model {
+      model_option: AWS_CLAUDE_3_SONNET
+      # top_k: 1000
+      # top_p: 0.5        # 0.999
+      # temperature: 0.5  # 1.
+      max_tokens: 4096    # 1024
+    }
+  }
+}
+repo {
+  root_dir: "/home/sliuxl/xmpp-light"
+  # github_url: "https://github.com/tumakha/xmpp-light.git"
+  # base_commit_id: "53f2c87ddf91e983404f1201397d971b6912aa6a"
+  source_branch: "ported"
+  branch: "{source_branch}-{timestamp}--max{max_iterations}"
+  git_clean: true
+  git_restore: true
+}
+builder {
+  maven_builder {
+    root_dir: "{root_dir}"  # Copy from repo.root_dir
+    # build_command: "cd {root_dir}; mvn clean verify"
+  }
+  enable_feedback: true  # Strongly recommended to be turned on.
+  build_error_change_option: ERRORS_DECREASING  # ERRORS_DIFFERENT_FROM_BEFORE, ERRORS_NON_INCREASING, ERRORS_DECREASING
+}
+ast_parser {  # Comment the whole section if to disable.
+  java_ast_parser {
+    root_dir: "{root_dir}"  # Copy from repo.root_dir
+    # mvn_path: "mvn"
+  }
+}
+prompt_manager {
+  template_prompt_manager {
+    # template_prompt: "Hello: Why is the sky blue?"
+    template_prompt_file: "configs/maven_template_prompt.txt"
+    template_prompt_file_for_project: "configs/maven_template_prompt_for_project.txt"
+
+    required_fields: "code_snippet"
+    required_fields: "column_number"
+    required_fields: "compile_error"
+    # required_fields: "error_code"
+    required_fields: "file_path"
+    required_fields: "line_number"
+    required_fields: "project_path"
+    required_fields: "FILE__file_content"
+    required_fields: "FILE__project_content"
+  }
+  restart_messages_len_gt: 10
+}
+llm_parser_by_group {
+  regex_llm_parser_by_group {
+    group: "Change"
+    regex_group_start: "\\[{regex} Start [^\]]+\\]"
+    regex_group_end: "\\[{regex} End [^\]]+\\]"
+  }
+  block_parser {
+    regex_llm_parser {
+      find: "Find"
+      replace: "Replace"
+
+      # block_start: "\\[{regex} Start <[^>]+>\\]"
+      # block_end: "\\[{regex} End <[^>]+>\\]"
+    }
+  }
+}
+max_iterations: 30
+# repeat: 1

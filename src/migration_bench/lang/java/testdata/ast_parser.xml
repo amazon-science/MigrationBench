@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <Package>qct.ast_parser</Package>
+    <Imports>
+        <Import>
+            <Name>com.github.javaparser.StaticJavaParser</Name>
+            <LineStart>17</LineStart>
+            <LineEnd>17</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.CompilationUnit</Name>
+            <LineStart>18</LineStart>
+            <LineEnd>18</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.body.ClassOrInterfaceDeclaration</Name>
+            <LineStart>19</LineStart>
+            <LineEnd>19</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.body.MethodDeclaration</Name>
+            <LineStart>20</LineStart>
+            <LineEnd>20</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.body.VariableDeclarator</Name>
+            <LineStart>21</LineStart>
+            <LineEnd>21</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.expr.AnnotationExpr</Name>
+            <LineStart>22</LineStart>
+            <LineEnd>22</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.NodeList</Name>
+            <LineStart>23</LineStart>
+            <LineEnd>23</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.type.ClassOrInterfaceType</Name>
+            <LineStart>24</LineStart>
+            <LineEnd>24</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.type.Type</Name>
+            <LineStart>25</LineStart>
+            <LineEnd>25</LineEnd>
+        </Import>
+        <Import>
+            <Name>com.github.javaparser.ast.visitor.VoidVisitorAdapter</Name>
+            <LineStart>26</LineStart>
+            <LineEnd>26</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.io.File</Name>
+            <LineStart>28</LineStart>
+            <LineEnd>28</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.io.FileNotFoundException</Name>
+            <LineStart>29</LineStart>
+            <LineEnd>29</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.io.IOException</Name>
+            <LineStart>30</LineStart>
+            <LineEnd>30</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.io.PrintWriter</Name>
+            <LineStart>31</LineStart>
+            <LineEnd>31</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.util.HashMap</Name>
+            <LineStart>32</LineStart>
+            <LineEnd>32</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.util.List</Name>
+            <LineStart>33</LineStart>
+            <LineEnd>33</LineEnd>
+        </Import>
+        <Import>
+            <Name>java.util.stream.Collectors</Name>
+            <LineStart>34</LineStart>
+            <LineEnd>34</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.parsers.DocumentBuilder</Name>
+            <LineStart>36</LineStart>
+            <LineEnd>36</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.parsers.DocumentBuilderFactory</Name>
+            <LineStart>37</LineStart>
+            <LineEnd>37</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.parsers.ParserConfigurationException</Name>
+            <LineStart>38</LineStart>
+            <LineEnd>38</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.transform.Transformer</Name>
+            <LineStart>39</LineStart>
+            <LineEnd>39</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.transform.TransformerFactory</Name>
+            <LineStart>40</LineStart>
+            <LineEnd>40</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.transform.TransformerException</Name>
+            <LineStart>41</LineStart>
+            <LineEnd>41</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.transform.dom.DOMSource</Name>
+            <LineStart>42</LineStart>
+            <LineEnd>42</LineEnd>
+        </Import>
+        <Import>
+            <Name>javax.xml.transform.stream.StreamResult</Name>
+            <LineStart>43</LineStart>
+            <LineEnd>43</LineEnd>
+        </Import>
+        <Import>
+            <Name>org.w3c.dom.Document</Name>
+            <LineStart>45</LineStart>
+            <LineEnd>45</LineEnd>
+        </Import>
+        <Import>
+            <Name>org.w3c.dom.Element</Name>
+            <LineStart>46</LineStart>
+            <LineEnd>46</LineEnd>
+        </Import>
+        <Import>
+            <Name>org.xml.sax.SAXException</Name>
+            <LineStart>47</LineStart>
+            <LineEnd>47</LineEnd>
+        </Import>
+        <Import>
+            <Name>qct.ast_parser.XmlBeautifier</Name>
+            <LineStart>49</LineStart>
+            <LineEnd>49</LineEnd>
+        </Import>
+    </Imports>
+    <Class>
+        <Name>AstParser</Name>
+        <Signature> public class AstParser</Signature>
+        <LineStart>52</LineStart>
+        <LineEnd>364</LineEnd>
+        <Parents/>
+        <Constructors/>
+        <Methods>
+            <Method>
+                <Name>main</Name>
+                <Signature> public static void main(String[] args) throws FileNotFoundException</Signature>
+                <Override>false</Override>
+                <LineStart>54</LineStart>
+                <LineEnd>124</LineEnd>
+                <Parameters>
+                    <Parameter>
+                        <Type>String[]</Type>
+                        <Name>args</Name>
+                        <Signature>String[] args</Signature>
+                        <LineStart>54</LineStart>
+                        <LineEnd>54</LineEnd>
+                    </Parameter>
+                </Parameters>
+                <Variables>
+                    <Variable>
+                        <Type>HashMap&lt;String,String&gt;</Type>
+                        <Name>argMap</Name>
+                        <Signature>HashMap&lt;String,String&gt; argMap</Signature>
+                        <LineStart>56</LineStart>
+                        <LineEnd>56</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>int</Type>
+                        <Name>i</Name>
+                        <Signature>int i</Signature>
+                        <LineStart>57</LineStart>
+                        <LineEnd>57</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String[]</Type>
+                        <Name>parts</Name>
+                        <Signature>String[] parts</Signature>
+                        <LineStart>60</LineStart>
+                        <LineEnd>60</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>name</Name>
+                        <Signature>String name</Signature>
+                        <LineStart>64</LineStart>
+                        <LineEnd>64</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>value</Name>
+                        <Signature>String value</Signature>
+                        <LineStart>65</LineStart>
+                        <LineEnd>65</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>export_path</Name>
+                        <Signature>String export_path</Signature>
+                        <LineStart>70</LineStart>
+                        <LineEnd>70</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>input_files</Name>
+                        <Signature>String input_files</Signature>
+                        <LineStart>72</LineStart>
+                        <LineEnd>72</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>CompilationUnit</Type>
+                        <Name>cu</Name>
+                        <Signature>CompilationUnit cu</Signature>
+                        <LineStart>76</LineStart>
+                        <LineEnd>76</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>DocumentBuilderFactory</Type>
+                        <Name>dbFactory</Name>
+                        <Signature>DocumentBuilderFactory dbFactory</Signature>
+                        <LineStart>79</LineStart>
+                        <LineEnd>79</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>DocumentBuilder</Type>
+                        <Name>dBuilder</Name>
+                        <Signature>DocumentBuilder dBuilder</Signature>
+                        <LineStart>80</LineStart>
+                        <LineEnd>80</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Document</Type>
+                        <Name>doc</Name>
+                        <Signature>Document doc</Signature>
+                        <LineStart>81</LineStart>
+                        <LineEnd>81</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>rootElement</Name>
+                        <Signature>Element rootElement</Signature>
+                        <LineStart>84</LineStart>
+                        <LineEnd>84</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>TransformerFactory</Type>
+                        <Name>transformerFactory</Name>
+                        <Signature>TransformerFactory transformerFactory</Signature>
+                        <LineStart>96</LineStart>
+                        <LineEnd>96</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Transformer</Type>
+                        <Name>transformer</Name>
+                        <Signature>Transformer transformer</Signature>
+                        <LineStart>97</LineStart>
+                        <LineEnd>97</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>DOMSource</Type>
+                        <Name>source</Name>
+                        <Signature>DOMSource source</Signature>
+                        <LineStart>98</LineStart>
+                        <LineEnd>98</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>StreamResult</Type>
+                        <Name>result</Name>
+                        <Signature>StreamResult result</Signature>
+                        <LineStart>101</LineStart>
+                        <LineEnd>101</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>DocumentBuilderFactory</Type>
+                        <Name>factory</Name>
+                        <Signature>DocumentBuilderFactory factory</Signature>
+                        <LineStart>112</LineStart>
+                        <LineEnd>112</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>DocumentBuilder</Type>
+                        <Name>builder</Name>
+                        <Signature>DocumentBuilder builder</Signature>
+                        <LineStart>113</LineStart>
+                        <LineEnd>113</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Document</Type>
+                        <Name>document</Name>
+                        <Signature>Document document</Signature>
+                        <LineStart>115</LineStart>
+                        <LineEnd>115</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>PrintWriter</Type>
+                        <Name>out</Name>
+                        <Signature>PrintWriter out</Signature>
+                        <LineStart>119</LineStart>
+                        <LineEnd>119</LineEnd>
+                    </Variable>
+                </Variables>
+            </Method>
+        </Methods>
+        <Properties/>
+    </Class>
+    <Class>
+        <Name>FileAnalyzerVisitor</Name>
+        <Signature> private static class FileAnalyzerVisitor extends VoidVisitorAdapter</Signature>
+        <LineStart>127</LineStart>
+        <LineEnd>363</LineEnd>
+        <Parents>
+            <Parent>
+                <Name>VoidVisitorAdapter</Name>
+                <Signature>VoidVisitorAdapter&lt;Void&gt;</Signature>
+                <LineStart>127</LineStart>
+            </Parent>
+        </Parents>
+        <Constructors>
+            <Constructor>
+                <Name>FileAnalyzerVisitor</Name>
+                <Signature>public FileAnalyzerVisitor(Document doc, Element rootElement, boolean add_import, boolean add_line, boolean add_var)</Signature>
+                <LineStart>135</LineStart>
+                <LineEnd>145</LineEnd>
+            </Constructor>
+        </Constructors>
+        <Methods>
+            <Method>
+                <Name>addTag</Name>
+                <Signature> private Element addTag(Element rootElement, String field, String value)</Signature>
+                <Override>false</Override>
+                <LineStart>147</LineStart>
+                <LineEnd>157</LineEnd>
+                <Parameters>
+                    <Parameter>
+                        <Type>Element</Type>
+                        <Name>rootElement</Name>
+                        <Signature>Element rootElement</Signature>
+                        <LineStart>147</LineStart>
+                        <LineEnd>147</LineEnd>
+                    </Parameter>
+                    <Parameter>
+                        <Type>String</Type>
+                        <Name>field</Name>
+                        <Signature>String field</Signature>
+                        <LineStart>147</LineStart>
+                        <LineEnd>147</LineEnd>
+                    </Parameter>
+                    <Parameter>
+                        <Type>String</Type>
+                        <Name>value</Name>
+                        <Signature>String value</Signature>
+                        <LineStart>147</LineStart>
+                        <LineEnd>147</LineEnd>
+                    </Parameter>
+                </Parameters>
+                <Variables>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>nameElement</Name>
+                        <Signature>Element nameElement</Signature>
+                        <LineStart>148</LineStart>
+                        <LineEnd>148</LineEnd>
+                    </Variable>
+                </Variables>
+            </Method>
+            <Method>
+                <Name>getClassDecSignature</Name>
+                <Signature> private static String getClassDecSignature(ClassOrInterfaceDeclaration clsOrInterface)</Signature>
+                <Override>false</Override>
+                <LineStart>159</LineStart>
+                <LineEnd>196</LineEnd>
+                <Parameters>
+                    <Parameter>
+                        <Type>ClassOrInterfaceDeclaration</Type>
+                        <Name>clsOrInterface</Name>
+                        <Signature>ClassOrInterfaceDeclaration clsOrInterface</Signature>
+                        <LineStart>159</LineStart>
+                        <LineEnd>159</LineEnd>
+                    </Parameter>
+                </Parameters>
+                <Variables>
+                    <Variable>
+                        <Type>StringBuilder</Type>
+                        <Name>signatureBuilder</Name>
+                        <Signature>StringBuilder signatureBuilder</Signature>
+                        <LineStart>160</LineStart>
+                        <LineEnd>160</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>modifiers</Name>
+                        <Signature>String modifiers</Signature>
+                        <LineStart>169</LineStart>
+                        <LineEnd>171</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>List&lt;String&gt;</Type>
+                        <Name>extendedClasses</Name>
+                        <Signature>List&lt;String&gt; extendedClasses</Signature>
+                        <LineStart>178</LineStart>
+                        <LineEnd>180</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>List&lt;String&gt;</Type>
+                        <Name>implementedInterfaces</Name>
+                        <Signature>List&lt;String&gt; implementedInterfaces</Signature>
+                        <LineStart>187</LineStart>
+                        <LineEnd>189</LineEnd>
+                    </Variable>
+                </Variables>
+            </Method>
+            <Method>
+                <Name>getClassSignature</Name>
+                <Signature>  String getClassSignature(ClassOrInterfaceType clsOrInterface)</Signature>
+                <Override>false</Override>
+                <LineStart>198</LineStart>
+                <LineEnd>213</LineEnd>
+                <Parameters>
+                    <Parameter>
+                        <Type>ClassOrInterfaceType</Type>
+                        <Name>clsOrInterface</Name>
+                        <Signature>ClassOrInterfaceType clsOrInterface</Signature>
+                        <LineStart>198</LineStart>
+                        <LineEnd>198</LineEnd>
+                    </Parameter>
+                </Parameters>
+                <Variables>
+                    <Variable>
+                        <Type>StringBuilder</Type>
+                        <Name>signatureBuilder</Name>
+                        <Signature>StringBuilder signatureBuilder</Signature>
+                        <LineStart>199</LineStart>
+                        <LineEnd>199</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>NodeList&lt;Type&gt;</Type>
+                        <Name>typeArguments</Name>
+                        <Signature>NodeList&lt;Type&gt; typeArguments</Signature>
+                        <LineStart>205</LineStart>
+                        <LineEnd>205</LineEnd>
+                    </Variable>
+                </Variables>
+            </Method>
+            <Method>
+                <Name>visit</Name>
+                <Signature>@Override public void visit(CompilationUnit cu, Void arg)</Signature>
+                <Override>true</Override>
+                <LineStart>215</LineStart>
+                <LineEnd>237</LineEnd>
+                <Parameters>
+                    <Parameter>
+                        <Type>CompilationUnit</Type>
+                        <Name>cu</Name>
+                        <Signature>CompilationUnit cu</Signature>
+                        <LineStart>216</LineStart>
+                        <LineEnd>216</LineEnd>
+                    </Parameter>
+                    <Parameter>
+                        <Type>Void</Type>
+                        <Name>arg</Name>
+                        <Signature>Void arg</Signature>
+                        <LineStart>216</LineStart>
+                        <LineEnd>216</LineEnd>
+                    </Parameter>
+                </Parameters>
+                <Variables>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>importsElement</Name>
+                        <Signature>Element importsElement</Signature>
+                        <LineStart>224</LineStart>
+                        <LineEnd>224</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>importElement</Name>
+                        <Signature>Element importElement</Signature>
+                        <LineStart>226</LineStart>
+                        <LineEnd>226</LineEnd>
+                    </Variable>
+                </Variables>
+            </Method>
+            <Method>
+                <Name>visit</Name>
+                <Signature>@Override public void visit(ClassOrInterfaceDeclaration cls, Void arg)</Signature>
+                <Override>true</Override>
+                <LineStart>239</LineStart>
+                <LineEnd>362</LineEnd>
+                <Parameters>
+                    <Parameter>
+                        <Type>ClassOrInterfaceDeclaration</Type>
+                        <Name>cls</Name>
+                        <Signature>ClassOrInterfaceDeclaration cls</Signature>
+                        <LineStart>240</LineStart>
+                        <LineEnd>240</LineEnd>
+                    </Parameter>
+                    <Parameter>
+                        <Type>Void</Type>
+                        <Name>arg</Name>
+                        <Signature>Void arg</Signature>
+                        <LineStart>240</LineStart>
+                        <LineEnd>240</LineEnd>
+                    </Parameter>
+                </Parameters>
+                <Variables>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>classElement</Name>
+                        <Signature>Element classElement</Signature>
+                        <LineStart>242</LineStart>
+                        <LineEnd>242</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>parentsElement</Name>
+                        <Signature>Element parentsElement</Signature>
+                        <LineStart>255</LineStart>
+                        <LineEnd>255</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>parentElement</Name>
+                        <Signature>Element parentElement</Signature>
+                        <LineStart>257</LineStart>
+                        <LineEnd>257</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>parentElement</Name>
+                        <Signature>Element parentElement</Signature>
+                        <LineStart>266</LineStart>
+                        <LineEnd>266</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>constructorsElement</Name>
+                        <Signature>Element constructorsElement</Signature>
+                        <LineStart>276</LineStart>
+                        <LineEnd>276</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>constructorElement</Name>
+                        <Signature>Element constructorElement</Signature>
+                        <LineStart>278</LineStart>
+                        <LineEnd>278</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>methodsElement</Name>
+                        <Signature>Element methodsElement</Signature>
+                        <LineStart>289</LineStart>
+                        <LineEnd>289</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>methodElement</Name>
+                        <Signature>Element methodElement</Signature>
+                        <LineStart>291</LineStart>
+                        <LineEnd>291</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>methodDeclaration</Name>
+                        <Signature>String methodDeclaration</Signature>
+                        <LineStart>294</LineStart>
+                        <LineEnd>296</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>paramsElement</Name>
+                        <Signature>Element paramsElement</Signature>
+                        <LineStart>308</LineStart>
+                        <LineEnd>308</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>paramElement</Name>
+                        <Signature>Element paramElement</Signature>
+                        <LineStart>310</LineStart>
+                        <LineEnd>310</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>name</Name>
+                        <Signature>String name</Signature>
+                        <LineStart>312</LineStart>
+                        <LineEnd>312</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>type</Name>
+                        <Signature>String type</Signature>
+                        <LineStart>313</LineStart>
+                        <LineEnd>313</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>variablesElement</Name>
+                        <Signature>Element variablesElement</Signature>
+                        <LineStart>325</LineStart>
+                        <LineEnd>325</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>variableElement</Name>
+                        <Signature>Element variableElement</Signature>
+                        <LineStart>327</LineStart>
+                        <LineEnd>327</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>name</Name>
+                        <Signature>String name</Signature>
+                        <LineStart>329</LineStart>
+                        <LineEnd>329</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>type</Name>
+                        <Signature>String type</Signature>
+                        <LineStart>330</LineStart>
+                        <LineEnd>330</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>propertiesElement</Name>
+                        <Signature>Element propertiesElement</Signature>
+                        <LineStart>345</LineStart>
+                        <LineEnd>345</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>Element</Type>
+                        <Name>propertyElement</Name>
+                        <Signature>Element propertyElement</Signature>
+                        <LineStart>347</LineStart>
+                        <LineEnd>347</LineEnd>
+                    </Variable>
+                    <Variable>
+                        <Type>String</Type>
+                        <Name>name</Name>
+                        <Signature>String name</Signature>
+                        <LineStart>349</LineStart>
+                        <LineEnd>349</LineEnd>
+                    </Variable>
+                </Variables>
+            </Method>
+        </Methods>
+        <Properties>
+            <Property>
+                <Name>doc</Name>
+                <Type>Document</Type>
+                <Signature>private final Document doc;</Signature>
+                <LineStart>128</LineStart>
+                <LineEnd>128</LineEnd>
+            </Property>
+            <Property>
+                <Name>rootElement</Name>
+                <Type>Element</Type>
+                <Signature>private final Element rootElement;</Signature>
+                <LineStart>129</LineStart>
+                <LineEnd>129</LineEnd>
+            </Property>
+            <Property>
+                <Name>add_import</Name>
+                <Type>boolean</Type>
+                <Signature>private boolean add_import;</Signature>
+                <LineStart>131</LineStart>
+                <LineEnd>131</LineEnd>
+            </Property>
+            <Property>
+                <Name>add_line</Name>
+                <Type>boolean</Type>
+                <Signature>private boolean add_line;</Signature>
+                <LineStart>132</LineStart>
+                <LineEnd>132</LineEnd>
+            </Property>
+            <Property>
+                <Name>add_var</Name>
+                <Type>boolean</Type>
+                <Signature>private boolean add_var;</Signature>
+                <LineStart>133</LineStart>
+                <LineEnd>133</LineEnd>
+            </Property>
+        </Properties>
+    </Class>
+</root>

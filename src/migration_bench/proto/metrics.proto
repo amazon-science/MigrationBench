@@ -1,0 +1,75 @@
+syntax = "proto2";
+
+package aws;
+
+
+// NextId: 6
+message RepoMetrics {
+  optional string url = 1;
+  optional float repo_size_in_bytes = 2;
+
+  optional int32 num_projects = 3;
+  optional int32 num_files = 4;
+  repeated string file_suffixes = 5;
+}
+
+
+// NextId: 4
+message StateMetrics {
+  optional bool success = 1;
+  optional int32 num_errors = 2;
+  optional int32 iteration = 3;
+}
+
+
+// NextId: 7
+// Efficacy metrics with Final status.
+message EfficacyMetrics {
+  optional StateMetrics state = 1;
+
+  optional int32 max_iterations = 3;
+  optional int32 iterations = 2;
+
+  // HParams.
+  optional int32 h_min_iterations = 4;
+  optional int32 h_max_iterations = 5;
+  optional float h_num_errors_factor = 6;
+  optional int32 deprecated_api = 7;
+}
+
+
+// NextId: 2
+message LatencyMetrics {
+  optional float seconds = 1;
+}
+
+
+// NextId: 7
+message LlmMetrics {
+  optional bool success = 1;
+  optional bool accepted = 2;
+
+  optional int32 input_tokens = 3;
+  optional int32 output_tokens = 4;
+  // Cost in dollar.
+  optional float cost = 5;
+
+  optional LatencyMetrics latency = 6;
+}
+
+
+// NextId: 8
+message Metrics {
+  optional RepoMetrics repo_metrics = 1;
+
+  // Initial vs final state metrics.
+  optional StateMetrics initial_state_metrics = 2;
+  repeated StateMetrics intermediate_state_metrics = 7;
+  optional EfficacyMetrics final_state_metrics = 3;
+
+  optional LatencyMetrics latency = 4;
+
+  // Summary vs details.
+  optional LlmMetrics llm_summary = 5;
+  repeated LlmMetrics llm_metrics = 6;
+}
