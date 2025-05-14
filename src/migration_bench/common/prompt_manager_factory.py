@@ -10,7 +10,7 @@ import logging
 import os
 from typing import Any, Sequence, Tuple
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 FILENAME = "file_path"

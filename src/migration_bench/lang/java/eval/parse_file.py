@@ -4,7 +4,7 @@ import logging
 
 import javalang
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 CLASS = "class"

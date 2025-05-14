@@ -4,8 +4,8 @@ import logging
 import os
 import sys
 
-from self_debug.common import git_repo, utils
-from self_debug.lang.java.eval import parse_file
+from migration_bench.common import git_repo, utils
+from migration_bench.lang.java.eval import parse_file
 
 TEST_FILES = r"\*.java"
 TEST_SUB_DIR = "src/test"

@@ -6,7 +6,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import maven_utils, utils
+from migration_bench.common import maven_utils, utils
 
 
 _PWD = os.path.dirname(os.path.abspath(__file__))

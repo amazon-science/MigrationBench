@@ -1,6 +1,6 @@
 import json
 
-from self_debug.common.utils import do_run_command
+from migration_bench.common.utils import do_run_command
 import os
 from abc import ABC, abstractmethod
 from typing import Dict, List, Tuple, Union

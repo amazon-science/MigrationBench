@@ -6,9 +6,9 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import utils
-from self_debug.eval import final_eval
-from self_debug.proto import config_pb2
+from migration_bench.common import utils
+from migration_bench.eval import final_eval
+from migration_bench.proto import config_pb2
 
 
 _PWD = os.path.dirname(os.path.abspath(__file__))

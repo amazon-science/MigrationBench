@@ -4,7 +4,7 @@ import logging
 import os
 import time
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 MAVEN_DEP_LINE_START = "[INFO] The following files have been resolved:"
@@ -164,7 +164,7 @@ def _run():
     )
     java_dir = "/home/sliuxl/github/xresloader"
 
-    from self_debug.common import hash_utils
+    from migration_bench.common import hash_utils
 
     for java_home in java_homes:
         if not os.path.exists(java_home):

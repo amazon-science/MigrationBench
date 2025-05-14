@@ -4,7 +4,7 @@ import os
 
 import datasets
 
-from self_debug.proto import dataset_pb2
+from migration_bench.proto import dataset_pb2
 
 # https://huggingface.co/datasets/AmazonScience/migration-bench-java-full
 JAVA_FULL = "AmazonScience/migration-bench-java-full"

@@ -1,5 +1,5 @@
 import unittest
-from self_debug.common.traceback_retriever import (
+from migration_bench.common.traceback_retriever import (
     TracebackFileExtractor,
 )  # Assuming the class is in traceback_file_extractor.py
 

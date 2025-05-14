@@ -8,7 +8,7 @@ from typing import Any, Dict, Sequence, Tuple, Union
 import boto3
 from botocore.exceptions import ClientError
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 AWS_REGION = "us-east-1"

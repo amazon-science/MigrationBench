@@ -5,7 +5,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import send_email, utils
+from migration_bench.common import send_email, utils
 
 
 class TestUtils(unittest.TestCase):
