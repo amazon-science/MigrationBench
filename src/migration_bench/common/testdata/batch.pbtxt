@@ -1,0 +1,72 @@
+user: "sliuxl"
+emr_serverless {
+  application {
+    # name: "emrs-{user}--{date}--run00"
+    # new: false
+
+    # emr_version: "emr-7.0.0"
+    # emr_application_type: "SPARK"
+
+    # 552793110740.dkr.ecr.us-east-1.amazonaws.com/sliuxl:self-dbg
+    image_uri: "552793110740.dkr.ecr.us-east-1.amazonaws.com/{user}:self-dbg"
+
+    subnet_ids: "subnet-07d1820b0be284714"
+    subnet_ids: "subnet-081c9be74d5307d23"
+    security_group_ids: "sg-0a63b0a4e43236a87"
+  }
+
+  job {
+    name: "{user}-{script_name}-{timestamp}--nodes{instances}m{min_instances}x{cores}-{disk}--r-{random}"
+    role: "arn:aws:iam::552793110740:role/EMRServerlessS3RuntimeRoleSelfDbg"
+
+    driver {
+      cores: 4
+      memory: "16G"
+      disk: "200G"
+    }
+    # worker { }
+  }
+
+  # 0. Builder.
+  scripts {
+    name: "builder"
+    binary: "/self-dbg/src/self_debug/batch/spark_build.py"
+
+    args: "--base_config_file=/self-dbg/src/self_debug/configs/csharp_config.pbtxt"
+    # args: "--config_file=/self-dbg/src/self_debug/datasets/configs/dataset_csharp_core-to-core.pbtxt"
+    args: "--config_file=/self-dbg/src/self_debug/datasets/configs/dataset_csharp_framework-to-core--v0-20240516.pbtxt"
+    args: "--dry_run_ast=0"
+    args: "--dry_run_builder=0"
+
+    # disable: false
+    # dry_run: false
+
+    ec2 {
+      instances: 10
+      min_instances: 3
+    }
+  }
+
+  # 0. Debugger.
+  scripts {
+    name: "debugger"
+    binary: "/self-dbg/src/self_debug/batch/spark_debug.py"
+    args: ""
+
+    args: "--base_config_file=/self-dbg/src/self_debug/configs/csharp_config.pbtxt"
+    # args: "--config_file=/self-dbg/src/self_debug/datasets/configs/dataset_csharp_core-to-core.pbtxt"
+    args: "--config_file=/self-dbg/src/self_debug/datasets/configs/dataset_csharp_framework-to-core--v0-20240516.pbtxt"
+    args: "--dry_run_ast=0"
+    args: "--dry_run_builder=0"
+    args: "--dry_run_debugger=0"
+    args: "--max_iterations=100"
+
+    disable: true
+    # dry_run: false
+
+    ec2 {
+      instances: 100
+      min_instances: 50
+    }
+  }
+}
