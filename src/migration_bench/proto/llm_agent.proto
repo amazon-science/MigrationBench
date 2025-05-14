@@ -1,0 +1,57 @@
+syntax = "proto2";
+
+import "self_debug/proto/model.proto";
+
+
+package aws;
+
+
+// NextId: 3
+message Region {
+  // NextId: 5
+  enum RegionOption {
+    UNKNOWN = 0;
+
+    US_EAST_1 = 1;
+    US_EAST_2 = 2;
+    US_WEST_1 = 3;
+    US_WEST_2 = 4;
+  }
+  oneof aws_region {
+    string region = 1;
+    Region.RegionOption region_option = 2;
+  }
+}
+
+
+// NextId: 3
+message BedrockRuntimeLlmAgent {
+  optional Region region = 1;
+
+  optional Model model = 2;
+}
+
+
+// NextId: 6
+message RetryPolicy {
+  optional int32 max_attempts = 1 [default = 1];
+
+  oneof wait {
+    float every_n_seconds = 2;
+    // Wait for (n, 2n, 4n ...) seconds, and in the range of [min_seconds, max_seconds]
+    float every_n_seconds_x2 = 3;
+  }
+
+  // Constraint for any `wait` option.
+  optional float min_seconds = 4 [default = 1.];
+  optional float max_seconds = 5 [default = 60.];
+}
+
+
+// NextId: 2
+message LlmAgent {
+  oneof agent {
+    BedrockRuntimeLlmAgent bedrock_runtime_llm_agent = 1;
+  }
+  optional RetryPolicy retry_policy = 3;
+}
