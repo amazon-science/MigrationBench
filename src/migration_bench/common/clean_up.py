@@ -4,7 +4,7 @@ import logging
 import sys
 from typing import Tuple
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 AWS_EXTERNAL_ONLY = "AWS_EXTERNAL_ONLY"

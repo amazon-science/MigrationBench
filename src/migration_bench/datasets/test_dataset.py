@@ -5,11 +5,11 @@ import os
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import config_pb2
+from migration_bench.proto import config_pb2
 
-from self_debug.common import utils
+from migration_bench.common import utils
 import dataset as dataset_utils
-from self_debug.datasets import hf_utils
+from migration_bench.datasets import hf_utils
 
 
 class TestDatasets(unittest.TestCase):
@@ -222,7 +222,7 @@ class TestDatasets(unittest.TestCase):
             ) and config.dataset.dataset_repo.github_repo.HasField("filename_json"):
                 config.dataset.dataset_repo.github_repo.filename_json = (
                     config.dataset.dataset_repo.github_repo.filename_json.replace(
-                        "/self-dbg/src/self_debug/datasets", pwd
+                        "/self-dbg/src/migration_bench/datasets", pwd
                     )
                 )
             logging.info("Config: <<<%s>>>", config)

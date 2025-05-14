@@ -20,10 +20,10 @@ import argparse
 import datetime
 import logging
 
-from self_debug.proto import config_pb2
+from migration_bench.proto import config_pb2
 
-from self_debug.common import utils
-from self_debug import self_debugging
+from migration_bench.common import utils
+from migration_bench import self_debugging
 
 
 _FORMAT_ITERATION = "02d"

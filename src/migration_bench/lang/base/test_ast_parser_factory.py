@@ -4,11 +4,11 @@ import logging
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import ast_parser_pb2
+from migration_bench.proto import ast_parser_pb2
 
-from self_debug.common import utils
-from self_debug.lang.base import ast_parser_factory
-from self_debug.lang.java import ast_parser as java_ast_parser
+from migration_bench.common import utils
+from migration_bench.lang.base import ast_parser_factory
+from migration_bench.lang.java import ast_parser as java_ast_parser
 
 
 JAVA_AST_PARSER_ARGS = ("root_dir",)

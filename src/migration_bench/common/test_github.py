@@ -5,8 +5,8 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.datasets.dataset import GithubData
-from self_debug.common import github, utils
+from migration_bench.datasets.dataset import GithubData
+from migration_bench.common import github, utils
 
 
 GITHUB_URL = "https://github.com/klee-contrib/kinetix"

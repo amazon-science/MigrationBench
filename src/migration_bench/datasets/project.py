@@ -7,9 +7,9 @@ import os
 from typing import Optional, Tuple
 from pathlib import Path
 
-from self_debug.common import pom_utils, repo as common_repo, s3_data, utils
-from self_debug.common.git_repo import GitRepo
-from self_debug.proto import dataset_pb2
+from migration_bench.common import pom_utils, repo as common_repo, s3_data, utils
+from migration_bench.common.git_repo import GitRepo
+from migration_bench.proto import dataset_pb2
 
 ROOT_DIR = "root_dir"
 PROJECT = "project"

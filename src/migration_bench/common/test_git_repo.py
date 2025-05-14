@@ -9,7 +9,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import git_repo, utils
+from migration_bench.common import git_repo, utils
 
 
 GIT_CLEAN = git_repo.GIT_STATUS_CLEAN

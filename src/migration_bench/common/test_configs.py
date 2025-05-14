@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import (
+from migration_bench.proto import (
     batch_pb2,
     config_pb2,
     dataset_pb2,
@@ -15,7 +15,7 @@ from self_debug.proto import (
     llm_parser_pb2,
 )
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 class TestConfigs(unittest.TestCase):

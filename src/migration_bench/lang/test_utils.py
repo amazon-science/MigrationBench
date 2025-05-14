@@ -6,7 +6,7 @@ import shutil
 import tempfile
 import unittest
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 C_SHARP_PROJECT = "mvc/Modernize.Web/Modernize.Web.Mvc/Modernize.Web.Mvc.csproj"

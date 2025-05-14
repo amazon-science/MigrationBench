@@ -11,9 +11,9 @@ import time
 from pathlib import Path
 
 from typing import Any, Dict, List, Optional, Sequence, Tuple
-from self_debug.proto import config_pb2, llm_parser_pb2, metrics_pb2, trajectory_pb2
+from migration_bench.proto import config_pb2, llm_parser_pb2, metrics_pb2, trajectory_pb2
 
-from self_debug.common import (
+from migration_bench.common import (
     eval_utils,
     filesystem_writer_factory,
     git_repo,
@@ -22,9 +22,9 @@ from self_debug.common import (
     prompt_manager_factory,
     utils,
 )
-from self_debug.eval import final_eval
-from self_debug.lang.base import ast_helper, ast_parser_factory, builder_factory
-from self_debug.lm import (
+from migration_bench.eval import final_eval
+from migration_bench.lang.base import ast_helper, ast_parser_factory, builder_factory
+from migration_bench.lm import (
     grouped_llm_parser_factory,
     llm_agent_factory,
     llm_parser_factory,

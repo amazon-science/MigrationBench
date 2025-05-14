@@ -13,9 +13,9 @@ import abc
 import logging
 import sys
 
-from self_debug.proto import config_pb2
-from self_debug.common import github, s3_data, utils
-from self_debug.datasets import dataset
+from migration_bench.proto import config_pb2
+from migration_bench.common import github, s3_data, utils
+from migration_bench.datasets import dataset
 
 
 GITHUB_PREFIX = "https://github.com/"

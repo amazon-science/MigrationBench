@@ -70,7 +70,7 @@ from typing import Any, Dict, Optional, Sequence, Tuple
 
 import boto3
 
-from self_debug.common import github, utils
+from migration_bench.common import github, utils
 
 _FORMAT_DATE = "%Y%m%d"
 _FORMAT_TIMESTAMP = "%Y%m%d-%H%M%S"
@@ -120,24 +120,24 @@ EMR_VERSION = "emr-7.0.0"
 # For DEMO only.
 EMR_DEMO_APPLICATION = "emrs-{user}-{timestamp}"
 # EMR_DEMO_BINARY = "s3://self-dbg-plus/batch/spark_build.py"
-EMR_DEMO_BINARY = "/self-dbg/src/self_debug/mr/demo/spark_build.py"
-EMR_DEMO_BINARY = "/self-dbg/src/self_debug/batch/spark_build.py"
+EMR_DEMO_BINARY = "/self-dbg/src/migration_bench/mr/demo/spark_build.py"
+EMR_DEMO_BINARY = "/self-dbg/src/migration_bench/batch/spark_build.py"
 
 # pylint: disable=line-too-long
 CSHARP_BENCHMARK_00 = (
-    "/self-dbg/src/self_debug/datasets/configs/dataset_csharp_core-to-core.pbtxt"
+    "/self-dbg/src/migration_bench/datasets/configs/dataset_csharp_core-to-core.pbtxt"
 )
-CSHARP_BENCHMARK_01 = "/self-dbg/src/self_debug/datasets/configs/dataset_csharp_framework-to-core--v0-20240516.pbtxt"
+CSHARP_BENCHMARK_01 = "/self-dbg/src/migration_bench/datasets/configs/dataset_csharp_framework-to-core--v0-20240516.pbtxt"
 # pylint: enable=line-too-long
 EMR_DEMO_ARGS = [
-    "--base_config_file=/self-dbg/src/self_debug/configs/csharp_config.pbtxt",
+    "--base_config_file=/self-dbg/src/migration_bench/configs/csharp_config.pbtxt",
     f"--config_file={CSHARP_BENCHMARK_01}",
     "--dry_run_ast=0",
     "--dry_run_builder=0",
 ]
 
 # EMR_DEMO_LLM_BINARY = "s3://self-dbg-plus/apache-demo-scripts/claude.py"
-EMR_DEMO_LLM_BINARY = "/self-dbg/src/self_debug/mr/demo/claude.py"
+EMR_DEMO_LLM_BINARY = "/self-dbg/src/migration_bench/mr/demo/claude.py"
 EMR_DEMO_LLM_ARGS = []
 
 APPLICATION_NAME = "application_name"

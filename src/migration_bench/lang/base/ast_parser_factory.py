@@ -3,10 +3,10 @@
 import logging
 from typing import Any
 
-from self_debug.common import utils
-from self_debug.lang.base import ast_parser
+from migration_bench.common import utils
+from migration_bench.lang.base import ast_parser
 
-from self_debug.lang.java import ast_parser as java_ast_parser
+from migration_bench.lang.java import ast_parser as java_ast_parser
 
 
 BaseAstParser = ast_parser.BaseAstParser

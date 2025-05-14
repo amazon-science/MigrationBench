@@ -4,9 +4,9 @@ import os
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import config_pb2
+from migration_bench.proto import config_pb2
 
-from self_debug.common import prompt_manager_factory, utils
+from migration_bench.common import prompt_manager_factory, utils
 
 
 TEMPLATE_PROMPT = """

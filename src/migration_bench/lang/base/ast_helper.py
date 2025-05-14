@@ -5,8 +5,8 @@ import logging
 import os
 from typing import Dict, Optional, Tuple
 
-from self_debug.common import utils
-from self_debug.lang.base import ast_parser, builder
+from migration_bench.common import utils
+from migration_bench.lang.base import ast_parser, builder
 
 ClassData = ast_parser.ClassData
 VariableData = ast_parser.VariableData

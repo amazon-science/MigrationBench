@@ -12,14 +12,14 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from self_debug.proto import model_pb2 as self__debug_dot_proto_dot_model__pb2
+from migration_bench.proto import model_pb2 as self__debug_dot_proto_dot_model__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n self_debug/proto/llm_agent.proto\x12\x03\x61ws\x1a\x1cself_debug/proto/model.proto\"\xb4\x01\n\x06Region\x12\x10\n\x06region\x18\x01 \x01(\tH\x00\x12\x31\n\rregion_option\x18\x02 \x01(\x0e\x32\x18.aws.Region.RegionOptionH\x00\"W\n\x0cRegionOption\x12\x0b\n\x07UNKNOWN\x10\x00\x12\r\n\tUS_EAST_1\x10\x01\x12\r\n\tUS_EAST_2\x10\x02\x12\r\n\tUS_WEST_1\x10\x03\x12\r\n\tUS_WEST_2\x10\x04\x42\x0c\n\naws_region\"P\n\x16\x42\x65\x64rockRuntimeLlmAgent\x12\x1b\n\x06region\x18\x01 \x01(\x0b\x32\x0b.aws.Region\x12\x19\n\x05model\x18\x02 \x01(\x0b\x32\n.aws.Model\"\x98\x01\n\x0bRetryPolicy\x12\x17\n\x0cmax_attempts\x18\x01 \x01(\x05:\x01\x31\x12\x19\n\x0f\x65very_n_seconds\x18\x02 \x01(\x02H\x00\x12\x1c\n\x12\x65very_n_seconds_x2\x18\x03 \x01(\x02H\x00\x12\x16\n\x0bmin_seconds\x18\x04 \x01(\x02:\x01\x31\x12\x17\n\x0bmax_seconds\x18\x05 \x01(\x02:\x02\x36\x30\x42\x06\n\x04wait\"}\n\x08LlmAgent\x12@\n\x19\x62\x65\x64rock_runtime_llm_agent\x18\x01 \x01(\x0b\x32\x1b.aws.BedrockRuntimeLlmAgentH\x00\x12&\n\x0cretry_policy\x18\x03 \x01(\x0b\x32\x10.aws.RetryPolicyB\x07\n\x05\x61gent')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'self_debug.proto.llm_agent_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'migration_bench.proto.llm_agent_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_REGION']._serialized_start=72

@@ -9,7 +9,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 _PWD = os.path.dirname(os.path.abspath(__file__))
 

@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 
 from packaging.version import Version
 
-from self_debug.common import hash_utils, maven_utils, utils
+from migration_bench.common import hash_utils, maven_utils, utils
 
 # pylint: disable=broad-exception-caught,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-return-statements
 

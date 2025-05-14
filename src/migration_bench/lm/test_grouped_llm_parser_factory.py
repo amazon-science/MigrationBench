@@ -4,10 +4,10 @@ import logging
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import llm_parser_pb2
+from migration_bench.proto import llm_parser_pb2
 
-from self_debug.common import utils
-from self_debug.lm import grouped_llm_parser_factory, llm_parser_factory
+from migration_bench.common import utils
+from migration_bench.lm import grouped_llm_parser_factory, llm_parser_factory
 
 
 FindReplacePair = llm_parser_factory.FindReplacePair

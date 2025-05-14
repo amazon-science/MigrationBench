@@ -33,14 +33,14 @@ import os
 from typing import Any, Sequence
 
 import boto3
-from self_debug.proto import config_pb2
+from migration_bench.proto import config_pb2
 from pyspark import SparkContext
 
-from self_debug.common import utils
-from self_debug.metrics import utils as metric_utils
-from self_debug.datasets import hf_utils
+from migration_bench.common import utils
+from migration_bench.metrics import utils as metric_utils
+from migration_bench.datasets import hf_utils
 
-from self_debug.batch import utils as spark_utils
+from migration_bench.batch import utils as spark_utils
 
 # Probably no need for all lines, if it's too long.
 BUILD_ERROR_CUTOFF_LINES = 10

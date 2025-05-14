@@ -5,10 +5,10 @@ import os
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import dataset_pb2
+from migration_bench.proto import dataset_pb2
 
-from self_debug.common import utils
-from self_debug.datasets import project as ds_project
+from migration_bench.common import utils
+from migration_bench.datasets import project as ds_project
 
 
 LOCAL_PROJECT_PBTXT = """

@@ -16,8 +16,8 @@ import logging
 import os
 import sys
 
-from self_debug.common import utils
-from self_debug.proto import config_pb2
+from migration_bench.common import utils
+from migration_bench.proto import config_pb2
 
 _PWD = os.path.dirname(__file__)
 

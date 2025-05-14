@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1eself_debug/pro
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'self_debug.proto.dataset_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'migration_bench.proto.dataset_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_LOCALREPO']._serialized_start=39

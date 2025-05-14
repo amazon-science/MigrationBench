@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!self_debug/proto/
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'self_debug.proto.cloudwatch_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'migration_bench.proto.cloudwatch_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_CLOUDWATCHMETRICS_CWDIMENSIONS_DIMENSIONMAPENTRY']._loaded_options = None

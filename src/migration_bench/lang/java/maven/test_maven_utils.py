@@ -7,8 +7,8 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import utils
-from self_debug.lang.java.maven import maven_utils
+from migration_bench.common import utils
+from migration_bench.lang.java.maven import maven_utils
 
 
 NEW_LINE = maven_utils.NEW_LINE

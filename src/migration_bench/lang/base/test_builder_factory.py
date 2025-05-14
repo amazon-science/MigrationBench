@@ -4,12 +4,12 @@ import logging
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import builder_pb2
+from migration_bench.proto import builder_pb2
 
-from self_debug.common import utils
-from self_debug.lang.base import builder_factory
+from migration_bench.common import utils
+from migration_bench.lang.base import builder_factory
 
-from self_debug.lang.java.maven import builder as maven_builder
+from migration_bench.lang.java.maven import builder as maven_builder
 
 
 MAVEN_BUILDER_ARGS = (

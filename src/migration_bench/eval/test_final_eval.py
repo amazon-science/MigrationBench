@@ -6,8 +6,8 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import utils
-from self_debug.eval import final_eval
+from migration_bench.common import utils
+from migration_bench.eval import final_eval
 
 _PWD = os.path.dirname(os.path.abspath(__file__))
 

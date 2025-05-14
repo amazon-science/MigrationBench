@@ -8,9 +8,9 @@ from typing import Any, Tuple
 
 import boto3
 import botocore
-from self_debug.proto import llm_agent_pb2, model_pb2
+from migration_bench.proto import llm_agent_pb2, model_pb2
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 # https://aws.amazon.com/blogs/aws/amazon-bedrock-now-provides-access-to-anthropics-latest-model-claude-2-1/

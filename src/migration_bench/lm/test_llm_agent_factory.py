@@ -4,10 +4,10 @@ import logging
 import unittest
 
 from parameterized import parameterized
-from self_debug.proto import llm_agent_pb2
+from migration_bench.proto import llm_agent_pb2
 
-from self_debug.common import utils
-from self_debug.lm import llm_agent_factory
+from migration_bench.common import utils
+from migration_bench.lm import llm_agent_factory
 
 
 TEXT_PROTO_00 = """

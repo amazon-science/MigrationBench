@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 from parameterized import parameterized
 
-from self_debug.common import file_utils, utils
+from migration_bench.common import file_utils, utils
 
 _PWD = os.path.dirname(os.path.abspath(__file__))
 

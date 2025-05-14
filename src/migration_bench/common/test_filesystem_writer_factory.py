@@ -8,8 +8,8 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.lm import llm_parser_factory
-from self_debug.common import filesystem_writer_factory, utils
+from migration_bench.lm import llm_parser_factory
+from migration_bench.common import filesystem_writer_factory, utils
 
 
 Pair = llm_parser_factory.FindReplacePair

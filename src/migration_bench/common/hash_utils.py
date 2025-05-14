@@ -7,7 +7,7 @@ import os
 import re
 from typing import Tuple
 
-from self_debug.common import git_repo, utils
+from migration_bench.common import git_repo, utils
 
 
 POM = "pom.xml"

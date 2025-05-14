@@ -6,7 +6,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.metrics import cloud_watch
+from migration_bench.metrics import cloud_watch
 
 METRICS = (
     {

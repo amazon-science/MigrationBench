@@ -6,7 +6,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import clean_up, utils
+from migration_bench.common import clean_up, utils
 
 _PWD = os.path.dirname(os.path.abspath(__file__))
 

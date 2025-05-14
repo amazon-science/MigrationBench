@@ -4,7 +4,7 @@ import logging
 import os
 from typing import Any, Optional, Sequence
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 ENABLE_FEEDBACK = utils.ENABLE_FEEDBACK

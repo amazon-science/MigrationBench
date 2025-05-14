@@ -5,8 +5,8 @@ import logging
 import re
 from typing import Dict, Optional, Sequence, Tuple
 
-from self_debug.lm import llm_parser_factory, utils as llm_utils
-from self_debug.common import utils
+from migration_bench.lm import llm_parser_factory, utils as llm_utils
+from migration_bench.common import utils
 
 
 ENABLE_FEEDBACK = utils.ENABLE_FEEDBACK

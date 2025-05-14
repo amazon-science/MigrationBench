@@ -3,10 +3,10 @@
 import logging
 from typing import Any
 
-from self_debug.common import utils
-from self_debug.lang.base import builder
+from migration_bench.common import utils
+from migration_bench.lang.base import builder
 
-from self_debug.lang.java.maven import builder as maven_builder
+from migration_bench.lang.java.maven import builder as maven_builder
 
 
 BaseBuilder = builder.BaseBuilder

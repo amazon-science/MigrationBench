@@ -11,8 +11,8 @@ from typing import Optional, Union
 
 import git
 
-from self_debug.datasets.dataset import GithubData
-from self_debug.common import utils
+from migration_bench.datasets.dataset import GithubData
+from migration_bench.common import utils
 
 
 # Branch names.
@@ -43,7 +43,7 @@ def get_random_string(length: int) -> str:
 fatal: could not read Username for 'https://github.com': No such device or address
 '`.
 Traceback (most recent call last):
-  File "/self-dbg/src/self_debug/common/github.py", line 66, in _clone_repo
+  File "/self-dbg/src/migration_bench/common/github.py", line 66, in _clone_repo
     local_repo = git.Repo.clone_from(github_url, work_dir)
   File "/usr/local/lib/python3.9/site-packages/git/repo/base.py", line 1525, in clone_from
     return cls._clone(

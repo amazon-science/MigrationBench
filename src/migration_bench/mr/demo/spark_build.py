@@ -7,12 +7,12 @@ import os
 import sys
 from typing import Any, Dict, Tuple
 
-from self_debug.proto import config_pb2
+from migration_bench.proto import config_pb2
 from pyspark import SparkContext
 
-from self_debug.common import utils
-from self_debug.lang.base import ast_parser_factory, builder_factory
-from self_debug.metrics import utils as metric_utils
+from migration_bench.common import utils
+from migration_bench.lang.base import ast_parser_factory, builder_factory
+from migration_bench.metrics import utils as metric_utils
 
 
 # Probably no need for all lines, if it's too long.

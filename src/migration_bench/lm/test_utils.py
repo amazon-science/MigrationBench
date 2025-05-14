@@ -6,7 +6,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.lm import utils
+from migration_bench.lm import utils
 
 
 FEEDBACK_FN_00 = lambda x: f"<<{x}>>"  # pylint: disable=unnecessary-lambda-assignment

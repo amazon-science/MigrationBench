@@ -4,7 +4,7 @@
 
 # Sample cmd:
 #   cd .../proto/../..
-#   ./self_debug/proto/compile_proto.sh self_debug ./
+#   ./migration_bench/proto/compile_proto.sh migration_bench ./
 
 set -ex
 

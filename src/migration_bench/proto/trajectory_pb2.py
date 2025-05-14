@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!self_debug/proto/
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'self_debug.proto.trajectory_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'migration_bench.proto.trajectory_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_STATE']._serialized_start=42

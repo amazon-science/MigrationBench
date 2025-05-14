@@ -8,7 +8,7 @@ from typing import Any, Dict, Sequence
 
 import boto3
 
-from self_debug.common import send_email, utils
+from migration_bench.common import send_email, utils
 
 DEFAULT_NAMESPACE = "aws"
 NAMESPACE = "namespace"

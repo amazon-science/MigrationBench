@@ -1,6 +1,6 @@
-from self_debug.lm import llm_agent_factory
-from self_debug.lang.base import builder_factory
-from self_debug.proto import config_pb2, metrics_pb2, trajectory_pb2
+from migration_bench.lm import llm_agent_factory
+from migration_bench.lang.base import builder_factory
+from migration_bench.proto import config_pb2, metrics_pb2, trajectory_pb2
 from fuzzywuzzy import fuzz
 from typing import Optional
 import logging

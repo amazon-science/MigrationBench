@@ -5,7 +5,7 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.lang.base import utils
+from migration_bench.lang.base import utils
 
 
 class TestUtils(unittest.TestCase):

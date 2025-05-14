@@ -5,7 +5,7 @@ https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/emr-s
 
 1. Sample command:
 ```
-export CONFIG=/self-dbg/src/self_debug/common/testdata/batch.pbtxt
+export CONFIG=/self-dbg/src/migration_bench/common/testdata/batch.pbtxt
 export CONFIG=../common/testdata/batch.pbtxt
 
 export CONFIG=configs/batch_csharp_micro-benchmark.pbtxt
@@ -56,9 +56,9 @@ from typing import Any, Dict, Optional, Tuple
 from pytz import timezone
 
 import boto3
-from self_debug.proto import batch_pb2
+from migration_bench.proto import batch_pb2
 
-from self_debug.common import github, utils
+from migration_bench.common import github, utils
 
 
 RANDOM_LEN = 6
@@ -539,7 +539,7 @@ def main():
         "region": config.region,
         "users": config.user,
         "batch_config": os.path.join(
-            "/self-dbg/src/self_debug",
+            "/self-dbg/src/migration_bench",
             re.sub(r"^.*/src/", "", os.path.abspath(args.config_file)),
         ),
         # Resources

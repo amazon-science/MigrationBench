@@ -13,14 +13,14 @@ import tempfile
 from typing import Any, Dict, List, Sequence, Tuple, Union
 
 import boto3
-from self_debug.proto import batch_pb2, config_pb2, metrics_pb2
+from migration_bench.proto import batch_pb2, config_pb2, metrics_pb2
 from pytz import timezone
 
-from self_debug.common import git_repo, s3_data, send_email, utils
-from self_debug.datasets import project as ds_project
-from self_debug.lang.base import ast_parser_factory, builder_factory
-from self_debug.metrics import cloud_watch, utils as metric_utils
-from self_debug import self_debugging
+from migration_bench.common import git_repo, s3_data, send_email, utils
+from migration_bench.datasets import project as ds_project
+from migration_bench.lang.base import ast_parser_factory, builder_factory
+from migration_bench.metrics import cloud_watch, utils as metric_utils
+from migration_bench import self_debugging
 
 
 # Probably no need for all lines, if it's too long.

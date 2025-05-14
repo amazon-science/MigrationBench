@@ -10,8 +10,8 @@ import xml.etree.ElementTree as ET
 
 from pydantic import BaseModel
 
-from self_debug.common import utils
-from self_debug.lm import utils as llm_utils
+from migration_bench.common import utils
+from migration_bench.lm import utils as llm_utils
 
 
 NEW_LINE = os.linesep

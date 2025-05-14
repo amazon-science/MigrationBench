@@ -6,8 +6,8 @@ import tempfile
 from typing import Any, Tuple
 import xml.etree.ElementTree as ET
 
-from self_debug.common import utils
-from self_debug.lang.base import ast_parser
+from migration_bench.common import utils
+from migration_bench.lang.base import ast_parser
 
 
 AstData = ast_parser.AstData

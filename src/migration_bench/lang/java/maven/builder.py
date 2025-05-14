@@ -11,12 +11,12 @@ import logging
 import os
 import re
 
-from self_debug.proto import builder_pb2
+from migration_bench.proto import builder_pb2
 
-from self_debug.common import utils
-from self_debug.lang.base import builder
-from self_debug.lang.java.eval import parse_file
-from self_debug.lang.java.maven import maven_utils
+from migration_bench.common import utils
+from migration_bench.lang.base import builder
+from migration_bench.lang.java.eval import parse_file
+from migration_bench.lang.java.maven import maven_utils
 
 
 BUILD_CMD_KEY_MODULE = "module"

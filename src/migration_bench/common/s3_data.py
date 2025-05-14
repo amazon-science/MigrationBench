@@ -16,10 +16,10 @@ import sys
 import tempfile
 from typing import Any, Optional, Tuple, Union
 
-from self_debug.proto import config_pb2
+from migration_bench.proto import config_pb2
 
 import boto3
-from self_debug.common import github, git_repo, utils
+from migration_bench.common import github, git_repo, utils
 
 
 RANDOM_LEN = 6

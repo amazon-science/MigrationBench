@@ -26,8 +26,8 @@ from typing import Any, Dict, Optional, Sequence, Tuple, Union
 
 import xml.etree.ElementTree as ET
 
-from self_debug.common import utils
-from self_debug.metrics import utils as metric_utils
+from migration_bench.common import utils
+from migration_bench.metrics import utils as metric_utils
 
 
 AstData = Union[None, ET.Element]

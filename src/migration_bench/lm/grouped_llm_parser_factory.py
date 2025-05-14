@@ -6,8 +6,8 @@ import os
 import re
 from typing import Any, Dict, Optional, Sequence, Tuple
 
-from self_debug.common import utils
-from self_debug.lm import llm_parser_factory, utils as llm_utils
+from migration_bench.common import utils
+from migration_bench.lm import llm_parser_factory, utils as llm_utils
 
 
 MatchBlock = llm_parser_factory.MatchBlock

@@ -5,9 +5,9 @@ import logging
 from typing import Any, Dict, Optional, Tuple, Union
 
 import numpy
-from self_debug.proto import dataset_pb2
+from migration_bench.proto import dataset_pb2
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 
 @dataclass
