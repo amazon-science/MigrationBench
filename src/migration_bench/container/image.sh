@@ -28,8 +28,8 @@ cp -r ~/.aws .
 curl -O https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
 
 rm -rf SelfDebug
-git clone --depth 1 https://github.com/amazon-science/self_debug.git
-mv self_debug SelfDebug
+git clone --depth 1 https://github.com/amazon-science/migration_bench.git
+mv migration_bench SelfDebug
 
 sed -i "s/^transformers$/### transformers   ### To reduce container size/g" SelfDebug/requirements.txt
 sed -i "s/^torch$/### torch   ### To reduce container size/g" SelfDebug/requirements.txt
