@@ -5,8 +5,8 @@ import logging
 import os
 from typing import Dict, Sequence, Tuple
 
-from self_debug.metrics import utils as metric_utils
-from self_debug.common import file_utils, hash_utils, utils
+from migration_bench.metrics import utils as metric_utils
+from migration_bench.common import file_utils, hash_utils, utils
 
 
 ALL = "."
@@ -69,7 +69,7 @@ class GitRepo:
     ### READ ONLY ops.
     def branch(self) -> Tuple[str, bool]:
         """Get branches.
-        ec2-user@ip-172-31-67-47.ec2.internal 20:29 /home/sliuxl/self-dbg/src/self_debug/common $ git branch
+        ec2-user@ip-172-31-67-47.ec2.internal 20:29 /home/sliuxl/self-dbg/src/migration_bench/common $ git branch
           amlc
         * csharp
 
@@ -117,7 +117,7 @@ class GitRepo:
         nothing to commit, working tree clean
 
         ### Sample 1: Not clean
-        ec2-user@ip-172-31-67-47.ec2.internal 19:15 /home/sliuxl/self-dbg/src/self_debug/common $ git status
+        ec2-user@ip-172-31-67-47.ec2.internal 19:15 /home/sliuxl/self-dbg/src/migration_bench/common $ git status
         On branch csharp
         Changes to be committed:
           (use "git restore --staged <file>..." to unstage)
@@ -147,7 +147,7 @@ class GitRepo:
     def show_staged(self, filename: str, option="-U0") -> Tuple[Tuple[int, int]]:
         """Show file in the staging area.
 
-        /home/sliuxl/self-dbg/src/self_debug/common $ git diff --staged -U0 ../configs/csharp_config.pbtxt
+        /home/sliuxl/self-dbg/src/migration_bench/common $ git diff --staged -U0 ../configs/csharp_config.pbtxt
         diff --git a/src/configs/csharp_config.pbtxt b/src/configs/csharp_config.pbtxt
         index 3853bc1..327a02e 100644
         --- a/src/configs/csharp_config.pbtxt

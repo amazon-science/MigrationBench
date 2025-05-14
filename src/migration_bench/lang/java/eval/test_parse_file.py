@@ -6,8 +6,8 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import utils
-from self_debug.lang.java.eval import parse_file
+from migration_bench.common import utils
+from migration_bench.lang.java.eval import parse_file
 
 _PWD = os.path.dirname(os.path.abspath(__file__))
 

@@ -5,9 +5,9 @@ import unittest
 
 from parameterized import parameterized
 
-from self_debug.common import utils
-from self_debug.datasets import hf_utils
-from self_debug.proto import dataset_pb2
+from migration_bench.common import utils
+from migration_bench.datasets import hf_utils
+from migration_bench.proto import dataset_pb2
 
 
 KWARGS_00 = {

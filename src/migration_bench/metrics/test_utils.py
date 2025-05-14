@@ -7,8 +7,8 @@ import unittest
 import numpy as np
 from parameterized import parameterized
 
-from self_debug.common import utils as common_utils
-from self_debug.metrics import utils
+from migration_bench.common import utils as common_utils
+from migration_bench.metrics import utils
 
 
 class TestUtils(unittest.TestCase):

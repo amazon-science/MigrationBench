@@ -10,7 +10,7 @@ from pathlib import Path
 
 from packaging.version import Version
 
-from self_debug.common import utils
+from migration_bench.common import utils
 
 DEPENDENCY_VERSION = Path(__file__).parent.parent / "reference/dependency_version.json"
 

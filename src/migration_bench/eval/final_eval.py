@@ -7,8 +7,8 @@ import tempfile
 
 import git
 
-from self_debug.common import eval_utils, git_repo, hash_utils, maven_utils, utils
-from self_debug.lang.java.eval import parse_repo
+from migration_bench.common import eval_utils, git_repo, hash_utils, maven_utils, utils
+from migration_bench.lang.java.eval import parse_repo
 
 
 _PWD = os.path.dirname(__file__)
