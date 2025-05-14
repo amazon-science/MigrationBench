@@ -6,9 +6,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="SelfDebug",
+    name="MigrationBench",
     version="0.1.0",
-    description="SelfDebug",
+    description="MigrationBench",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(where="src"),
