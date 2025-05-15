@@ -180,6 +180,7 @@ class TestUtils(unittest.TestCase):
                     "test_file_utils.py",
                     "test_git_repo.py",
                     "test_hash_utils.py",
+                    "test_hf_utils.py",
                     "test_maven_utils.py",
                     "test_utils.py",
                 ),

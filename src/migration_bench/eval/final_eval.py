@@ -7,47 +7,37 @@ import tempfile
 
 import git
 
-from migration_bench.common import eval_utils, git_repo, hash_utils, maven_utils, utils
+from migration_bench.common import (
+    eval_utils,
+    git_repo,
+    hash_utils,
+    hf_utils,
+    maven_utils,
+    utils,
+)
 from migration_bench.lang.java.eval import parse_repo
 
 
-_PWD = os.path.dirname(__file__)
-
-# pylint: disable=line-too-long
-FILE_COMMIT_ID = "../../../scripts/benchmark/java/raw-metrics-generated/raw_metrics__20250322-125330__repo__len-9978.json.normalized.full-len-05119"
-
-KEY_COMMIT_ID = "commit_id"
-KEY_GITHUB_URL = "github_url"
-
-
-FILE_NUM_TESTS = "../../../scripts/benchmark/java/raw-metrics/emrs-dbg-sliuxl--20250321--run02-hash/sliuxl-builder-java-v05d6-20250322-101827--nodes023x04--r-q7ls09/java__v05--6_20250321--pbtxt/raw_metrics__20250322-125330__repo__len-9978.json"
-
-# "GitRepo::BaseCommit::11-keep-repo-url__EQ__https://github.com/danielprinz/jacoco-maven-multi-module____4a9caf847b9488e9d3ff55f90d5071a1904ece28": 1,
-# "GitRepo::RepoSnapshot::repo-num-test-cases__EQ__-002": 1,
-KEY_PREFIX_GITHUB_URL = "GitRepo::BaseCommit::11-keep-repo-url__EQ__"
-KEY_PREFIX_NUM_TESTS = "GitRepo::RepoSnapshot::repo-num-test-cases__EQ__"
-# pylint: enable=line-too-long
-
+_JAVA_FULL = hf_utils.load_hf_dataset(
+    columns=(
+        hf_utils.COLUMN_REPO,
+        hf_utils.COLUMN_COMMIT,
+        hf_utils.COLUMN_NUM_TEST_CASES,
+    )
+)
 
 DATASET_COMMIT_IDS = {
-    row[KEY_GITHUB_URL]: row[KEY_COMMIT_ID]
-    for row in utils.load_json(os.path.join(_PWD, FILE_COMMIT_ID))
+    os.path.join(hf_utils.GITHUB_URL_PREFIX, repo_name): commit_id
+    for repo_name, commit_id in zip(
+        _JAVA_FULL[hf_utils.COLUMN_REPO], _JAVA_FULL[hf_utils.COLUMN_COMMIT]
+    )
 }
 
-
-def get_key(row, prefix: str) -> str:
-    for key in sorted(row.keys()):
-        if key.startswith(prefix):
-            return key[len(prefix) :]
-
-    raise ValueError(f"Unable to get any key with prefix `{prefix}`: `{row}`.")
-
-
 DATASET_NUM_TESTS = {
-    get_key(row, KEY_PREFIX_GITHUB_URL).split("____")[0]: int(
-        get_key(row, KEY_PREFIX_NUM_TESTS)
+    os.path.join(hf_utils.GITHUB_URL_PREFIX, repo_name): num_test_cases
+    for repo_name, num_test_cases in zip(
+        _JAVA_FULL[hf_utils.COLUMN_REPO], _JAVA_FULL[hf_utils.COLUMN_NUM_TEST_CASES]
     )
-    for row in utils.load_json(os.path.join(_PWD, FILE_NUM_TESTS))
 }
 
 
