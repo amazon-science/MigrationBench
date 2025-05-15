@@ -44,7 +44,7 @@
 - [1. 📖 Overview](#1--overview)
   * [1.1 MigrationBench: Evaluation Framework](#11-migrationbench-evaluation-framework)
   * [1.2 SDFeedback: Migration with LLMs](#12-sdfeedback-migration-with-llms)
-- [2. Datasets](#2-datasets)
+- [2. Datasets](#2--migration-benchmark-datasets)
 - [3. Code Migration Evaluation](#3-code-migration-evaluation)
   * [3.1 Get Started](#31-get-started)
     + [3.1.1 Basic Setup](#311-basic-setup)
@@ -93,7 +93,7 @@ and it relies on the current package for the final evaluation.
 - It runs both code migration and final evaluation with Elastic Map Reduce (EMR) Serverless in a scalable way.
 
 
-## 2. Datasets
+## 2. 🤗 MigrationBench Datasets
 
 There are three datasets in [🤗 MigrationBench](https://huggingface.co/collections/AmazonScience/migrationbench-68125452fc21a4564b92b6c3):
 - All repositories included in the datasets are available on GitHub, under the `MIT` or `Apache-2.0` license.
