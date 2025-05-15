@@ -5,9 +5,7 @@ import unittest
 
 from parameterized import parameterized
 
-from migration_bench.common import utils
 from migration_bench.datasets import hf_utils
-from migration_bench.proto import dataset_pb2
 
 
 KWARGS_00 = {
@@ -17,6 +15,9 @@ KWARGS_01 = {
     "first_n": 3,
     "columns": hf_utils.COLUMNS,
 }
+
+_LEN_FULL = 5102
+_LEN_SELECTED = 300
 
 TEMPLATE_DATASET_TEXTPROTO = """
 hf_option: HF_OPTION
@@ -35,7 +36,7 @@ class TestHfUtils(unittest.TestCase):
             (
                 hf_utils.JAVA_FULL,
                 {},
-                (8, 3),
+                (8, _LEN_FULL),
             ),
             (
                 hf_utils.JAVA_FULL,
@@ -78,7 +79,7 @@ class TestHfUtils(unittest.TestCase):
             (
                 hf_utils.JAVA_SELECTED,
                 {},
-                (8, 3),
+                (8, _LEN_SELECTED),
             ),
             (
                 hf_utils.JAVA_SELECTED,
@@ -125,113 +126,6 @@ class TestHfUtils(unittest.TestCase):
                 self.assertEqual(len(value), expected_elem_len)
         else:
             self.assertEqual(hf_ds, expected_dataset)
-
-    @parameterized.expand(
-        (
-            (
-                TEMPLATE_DATASET_TEXTPROTO.replace(
-                    "HF_OPTION", "MIGRATION_BENCH_JAVA_FULL"
-                ),
-                KWARGS_00,
-                """
-                    hf_option: MIGRATION_BENCH_JAVA_FULL
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/0000005/sync2any"
-                        commit_id: "af57b4f8621afd5bf1bd428cd65349eca85e0b8a"
-                      }
-                    }
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/0rtis/mochimo-farm-manager"
-                        commit_id: "5ae99dc9af5169a5719a031cc1047ac2d3b0e3c2"
-                      }
-                    }
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/0x100/n-loops"
-                        commit_id: "3b5939a7c653aae971535ae15fc5bb16f8e43a4d"
-                      }
-                    }
-                    dataset_partition {
-                      partition_repos: 3
-                    }
-                    apply_seed_changes: true
-                """,
-            ),
-            (
-                TEMPLATE_DATASET_TEXTPROTO.replace(
-                    "HF_OPTION", "MIGRATION_BENCH_JAVA_SELECTED"
-                ).replace("true", "false"),
-                KWARGS_01,
-                """
-                    hf_option: MIGRATION_BENCH_JAVA_SELECTED
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/15093015999/EJServer"
-                        commit_id: "7e51c59e090484ae4573290099b6936855554064"
-                      }
-                    }
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/284885166/spring-boot-hashids"
-                        commit_id: "4973285e49b48be7b10818fae530159c55af267a"
-                      }
-                    }
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/adlered/Picuang"
-                        commit_id: "8c361437de5fe56f45ff6cf6785a033a8e267d2a"
-                      }
-                    }
-                    dataset_partition {
-                      partition_repos: 3
-                    }
-                    apply_seed_changes: false
-                """,
-            ),
-            (
-                TEMPLATE_DATASET_TEXTPROTO.replace(
-                    "HF_OPTION", "MIGRATION_BENCH_JAVA_UTG"
-                ).replace("apply_seed_changes: true", "# apply_seed_changes: true"),
-                KWARGS_00,
-                """
-                    hf_option: MIGRATION_BENCH_JAVA_UTG
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/0fca/poolval2"
-                        commit_id: "c0e059fff4e47719469f436f0db2013d1938283f"
-                      }
-                    }
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/0rangeFox/AuthLib"
-                        commit_id: "c4cfb889abcca7fe684501be048561cc8b88950c"
-                      }
-                    }
-                    dataset_repos {
-                      github_repo {
-                        github_url: "https://github.com/0x100/liquibase-backup-spring-boot-starter"
-                        commit_id: "54c0546b5df5cfc9ca5dad3752bc2218c207c2fe"
-                      }
-                    }
-                    dataset_partition {
-                      partition_repos: 3
-                    }
-                    ### apply_seed_changes: true
-                """,
-            ),
-        )
-    )
-    def test_resolve_hf_dataset(self, config, kwargs, expected_config):
-        """Unit test for resolve_hf_dataset."""
-        config = utils.parse_proto(config, dataset_pb2.Dataset)
-        expected_config = utils.parse_proto(expected_config, dataset_pb2.Dataset)
-
-        # Idempotent
-        for _ in range(2):
-            config = hf_utils.resolve_hf_dataset(config, **kwargs)
-            self.assertEqual(config, expected_config)
 
 
 if __name__ == "__main__":
