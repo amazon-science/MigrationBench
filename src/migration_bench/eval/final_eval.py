@@ -18,6 +18,13 @@ from migration_bench.common import (
 from migration_bench.lang.java.eval import parse_repo
 
 
+# When running a batch job, we need the github url and git diff file or its content.
+KEY_GITHUB_URL = "github_url"
+# - Only one is needed
+KEY_GIT_DIFF_CONTENT = "git_diff"
+KEY_GIT_DIFF_FILE = "git_diff_file"
+
+
 _JAVA_FULL = hf_utils.load_hf_dataset(
     columns=(
         hf_utils.COLUMN_REPO,
@@ -216,8 +223,51 @@ def run_eval(
         return success
 
 
+def run_batch_eval(predictions, **kwargs) -> int:
+    """Run batch eval.
+
+    `predictions` could be:
+    1. A list of `dict` with keys:
+       - `github_url`: Github url for the repo
+       - `git_diff`: Git diff content
+       - `git_diff_file`: A file containing `git_diff`
+    1. A json file containing a list as #1
+
+    """
+    if isinstance(predictions, str):
+        predictions = utils.load_json(predictions) or []
+
+    count = 0
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_file = os.path.join(temp_dir, "predictions.json")
+
+        for pred in predictions:
+            github_url = pred.get(KEY_GITHUB_URL)
+
+            git_diff_file = pred.get(KEY_GIT_DIFF_FILE)
+            if git_diff_file is None:
+                git_diff = pred.get(KEY_GIT_DIFF_CONTENT)
+                if git_diff is not None:
+                    utils.export_file(temp_file, git_diff)
+                    git_diff_file = temp_file
+
+            count += run_eval(github_url, git_diff_file, **kwargs)
+
+    logging.info(
+        "[batch] Final eval result: Success = %d out of %d.", count, len(predictions)
+    )
+    return count
+
+
 def _run(github_url: str, git_diff_file: str = None):
-    logging.info("Final eval: success = `%s`.", run_eval(github_url, git_diff_file))
+    predictions = [
+        {
+            KEY_GITHUB_URL: github_url,
+            KEY_GIT_DIFF_FILE: git_diff_file,
+        },
+    ]
+
+    logging.info("Final eval: success = `%s`.", run_batch_eval(predictions))
 
 
 if __name__ == "__main__":

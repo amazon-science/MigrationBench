@@ -100,11 +100,20 @@ class TestFinalEval(unittest.TestCase):
             ),
         )
     )
-    def test_run_eval(self, url, git_diff_file, kwargs, expected_success):
-        """Unit test for `run_eval`."""
-        self.assertEqual(
-            final_eval.run_eval(url, git_diff_file, **kwargs), expected_success
-        )
+    def test_run_batch_eval(self, url, git_diff_file, kwargs, expected_success):
+        """Unit test for `run_batch_eval`."""
+        git_diff_content = utils.load_file(git_diff_file or "")
+
+        predictions = [
+            {
+                final_eval.KEY_GITHUB_URL: url,
+                final_eval.KEY_GIT_DIFF_CONTENT: git_diff_content,
+            },
+        ]
+        count = final_eval.run_batch_eval(predictions, **kwargs)
+
+        self.assertIsInstance(count, int)
+        self.assertEqual(bool(count), expected_success)
 
 
 if __name__ == "__main__":
