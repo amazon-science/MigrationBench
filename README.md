@@ -44,7 +44,6 @@
 - [1. 📖 Overview](#1--overview)
   * [1.1 MigrationBench: Evaluation Framework](#11-migrationbench-evaluation-framework)
   * [1.2 SDFeedback: Migration with LLMs](#12-sdfeedback-migration-with-llms)
-  #12-sdfeedback-migration-with-llms
 - [2. Datasets](#2-datasets)
 - [3. Code Migration Evaluation](#3-code-migration-evaluation)
   * [3.1 Get Started](#31-get-started)
