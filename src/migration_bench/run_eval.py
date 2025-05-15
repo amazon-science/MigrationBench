@@ -2,11 +2,24 @@
 
 Sample command:
 
+
+0. Batch job
+
+```
+PREDICTIONS=$file.json
+python run_eval.py --predictions_filename $PREDICTIONS
+```
+
+
+1. Single job
+
 ```
 GITHUB_URL=https://github.com/0xShamil/java-xid
 GIT_DIFF_FILE=
+
 python run_eval.py --github_url $GITHUB_URL --git_diff_filename $GIT_DIFF_FILE
 ```
+
 """
 
 import argparse
@@ -21,6 +34,15 @@ def _parse_args():
     parser = argparse.ArgumentParser()
 
     # Required arguments
+    # - Batch job: Prioritized over single job as long as predictions_filename is not `None`
+    parser.add_argument(
+        "--predictions_filename",
+        type=str,
+        default=None,
+        help="A .json file containing `github_url` and `git_diff` content.",
+    )
+
+    # - Single job
     parser.add_argument(
         "--github_url", type=str, default=None, help="Which repo to evaluate."
     )
@@ -110,12 +132,18 @@ def main():
     _maybe_update(kwargs, "commit_id", args.base_commit_id)
     _maybe_update(kwargs, "maven_command", args.maven_command)
 
-    success = final_eval.run_eval(args.github_url, args.git_diff_filename, **kwargs)
+    if args.predictions_filename:
+        eval_func = final_eval.run_batch_eval
+        eval_args = (args.predictions_filename,)
+        eval_mode = "batch"
+    else:
+        eval_func = final_eval.run_eval
+        eval_args = (args.github_url, args.git_diff_filename)
+        eval_mode = "single"
+
+    count = eval_func(*eval_args, **kwargs)
     logging.info(
-        "Migration status %s: (%s, %s)",
-        success,
-        args.github_url,
-        args.git_diff_filename,
+        "[%s] Migration success (count) `%s`: `%s`.", eval_mode, count, eval_args
     )
 
 
