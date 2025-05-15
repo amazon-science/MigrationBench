@@ -42,13 +42,13 @@
 <!-- toc -->
 
 - [1. 📖 Overview](#1-%F0%9F%93%96-overview)
-  * [1.1 [MigrationBench](https://github.com/amazon-science/MigrationBench): Evaluation Framework](#11-migrationbenchhttpsgithubcomamazon-sciencemigrationbench-evaluation-framework)
-  * [1.2 [SDFeedback](https://github.com/amazon-science/SDFeeback): Migration with LLMs](#12-sdfeedbackhttpsgithubcomamazon-sciencesdfeeback-migration-with-llms)
+  * [1.1 MigrationBench: Evaluation Framework](#11-migrationbenchhttpsgithubcomamazon-sciencemigrationbench-evaluation-framework)
+  * [1.2 SDFeedback: Migration with LLMs](#12-sdfeedbackhttpsgithubcomamazon-sciencesdfeeback-migration-with-llms)
 - [2. Datasets](#2-datasets)
 - [3. Code Migration Evaluation](#3-code-migration-evaluation)
   * [3.1 Get Started](#31-get-started)
     + [3.1.1 Basic Setup](#311-basic-setup)
-    + [3.1.2 Install [MigrationBench](https://github.com/amazon-science/MigrationBench)](#312-install-migrationbenchhttpsgithubcomamazon-sciencemigrationbench)
+    + [3.1.2 Install MigrationBench](#312-install-migrationbenchhttpsgithubcomamazon-sciencemigrationbench)
   * [3.1 Single Eval](#31-single-eval)
     + [3.1.1 Unsuccessful Eval](#311-unsuccessful-eval)
     + [3.1.2 Successful Eval](#312-successful-eval)
