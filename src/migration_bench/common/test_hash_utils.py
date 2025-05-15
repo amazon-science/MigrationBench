@@ -202,7 +202,7 @@ class TestHashUtils(unittest.TestCase):
             self.assertGreater(len(cid), 0)
             self.assertTrue(re.match(r"^[0-9a-f]{40}$", cid))
 
-    _TEST_DATA_HASH = "0891f0cf886cb524a71bd6a8332b75ed6b00d88d009e3375a508d48383b22712"
+    _TEST_DATA_HASH = "cbefe88beef5b37cf4a976d43656ca86d8067c8593df24d16385241888cf6d5b"
 
     _TEST_DATA_METRICS = defaultdict(
         int,

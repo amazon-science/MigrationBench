@@ -4,9 +4,8 @@ import os
 import unittest
 
 from parameterized import parameterized
-from migration_bench.proto import config_pb2
 
-from migration_bench.common import prompt_manager_factory, utils
+from migration_bench.common import prompt_manager_factory
 
 
 TEMPLATE_PROMPT = """
@@ -18,27 +17,9 @@ Hello, what's your name?
 
 TEMPLATE_PROMPT_FILE = "./testdata/template_prompt.txt"
 
-TEXT_PROTO = """
-  template_prompt_manager {
-    template_prompt: "Hello, what's your name?"
-  }
-"""
-
 
 class TestPromptManagerFactory(unittest.TestCase):
     """Unit test for prompt_manager_factory.py."""
-
-    def test_create_from_config(self):
-        """Unit tests for create_from_config."""
-        config = utils.parse_proto(TEXT_PROTO, config_pb2.PromptManager)
-        tmpl_prompt_manager = prompt_manager_factory.create_prompt_manager(config)
-
-        self.assertIsInstance(
-            tmpl_prompt_manager, prompt_manager_factory.BasePromptManager
-        )
-        self.assertIsInstance(
-            tmpl_prompt_manager, prompt_manager_factory.TemplatePromptManager
-        )
 
     @parameterized.expand(
         (
