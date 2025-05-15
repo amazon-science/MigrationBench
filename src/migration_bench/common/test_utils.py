@@ -177,17 +177,10 @@ class TestUtils(unittest.TestCase):
             (
                 r"test_\*.py",
                 (
-                    "test_clean_up.py",
-                    "test_configs.py",
                     "test_file_utils.py",
-                    "test_filesystem_writer_factory.py",
                     "test_git_repo.py",
-                    "test_github.py",
                     "test_hash_utils.py",
                     "test_maven_utils.py",
-                    "test_prompt_manager_factory.py",
-                    "test_send_email.py",
-                    "test_traceback_retriever.py",
                     "test_utils.py",
                 ),
             ),
