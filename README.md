@@ -39,10 +39,15 @@
   </tr>
 </table>
 
+<!--
+npm install -g markdown-toc
+markdown-toc -i README.md
+-->
+
 <!-- toc -->
 
 - [1. 📖 Overview](#1--overview)
-  * [1.1 MigrationBench: Evaluation Framework](#11-migrationbench-evaluation-framework)
+  * [1.1 MigrationBench: Dataset and Evaluation Framework](#11-migrationbench-dataset-and-evaluation-framework)
   * [1.2 SDFeedback: Migration with LLMs](#12-sdfeedback-migration-with-llms)
 - [2. 🤗 MigrationBench Datasets](#2--migrationbench-datasets)
 - [3. Code Migration Evaluation](#3-code-migration-evaluation)
@@ -61,17 +66,25 @@
 
 ## 1. 📖 Overview
 
-### 1.1 [MigrationBench](https://github.com/amazon-science/MigrationBench): Evaluation Framework
-
 [MigrationBench](https://github.com/amazon-science/MigrationBench)
-(current Github package)
-is the **evaluation framework** to assess code migration success,
-from `java 8` to `17` or any other long-term support versions.
+is a library to access code migration success,
+in an automated and robust way.
 
-- [🤗 MigrationBench](https://huggingface.co/collections/AmazonScience/migrationbench-68125452fc21a4564b92b6c3)
+- Reference paper: [MigrationBench: Repository-Level Code Migration Benchmark from Java 8](https://arxiv.org/abs/2505.09569)
+
+### 1.1 [MigrationBench](https://github.com/amazon-science/MigrationBench): Dataset and Evaluation Framework
+
+The name **MigrationBench** is used for both the dataset and the evaluation framework for code migration success:
+
+1. [🤗 MigrationBench](https://huggingface.co/collections/AmazonScience/migrationbench-68125452fc21a4564b92b6c3)
 is a large-scale code migration **benchmark dataset** at the **repository** level,
 across multiple programming languages.
-    * Current and initial release includes `java 8` repositories with the `maven` build system, as of May 2025.
+    - Current and initial release includes `java 8` repositories with the `maven` build system, as of May 2025.
+2. [MigrationBench](https://github.com/amazon-science/MigrationBench)
+(current Github package)
+is the **evaluation framework** to assess code migration success,
+from `java 8` to `17` or any other long-term support (LTS) versions.
+
 
 The evaluation is an *approximation* for functional equivalence by checking the following:
 1. The repo is able to build and pass all tests
