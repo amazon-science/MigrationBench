@@ -95,6 +95,12 @@ def _parse_args():
         default=1,
         help="Whether to run eval on invariant java test methods.",
     )
+    parser.add_argument(
+        "--max_workers",
+        type=int,
+        default=1,
+        help="Maximum number of worker processes for parallel batch evaluation. Use 1 for sequential processing.",
+    )
 
     return parser.parse_known_args()
 
@@ -133,9 +139,14 @@ def main():
     _maybe_update(kwargs, "maven_command", args.maven_command)
 
     if args.predictions_filename:
-        eval_func = final_eval.run_batch_eval
+        if args.max_workers > 1:
+            eval_func = final_eval.run_batch_eval_parallel
+            kwargs["max_workers"] = args.max_workers
+            eval_mode = "batch-parallel"
+        else:
+            eval_func = final_eval.run_batch_eval
+            eval_mode = "batch"
         eval_args = (args.predictions_filename,)
-        eval_mode = "batch"
     else:
         eval_func = final_eval.run_eval
         eval_args = (args.github_url, args.git_diff_filename)
