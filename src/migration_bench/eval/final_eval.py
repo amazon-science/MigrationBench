@@ -1,6 +1,7 @@
 """Final eval."""
 
 import logging
+import multiprocessing as mp
 import os
 import sys
 import tempfile
@@ -221,6 +222,73 @@ def run_eval(
         )
 
         return success
+
+
+def _process_single_prediction(pred_data):
+    """Process a single prediction. Used for multiprocessing."""
+    pred, kwargs = pred_data
+    github_url = pred.get(KEY_GITHUB_URL)
+    git_diff_file = pred.get(KEY_GIT_DIFF_FILE)
+    
+    if git_diff_file is None:
+        git_diff = pred.get(KEY_GIT_DIFF_CONTENT)
+        if git_diff is not None:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                temp_file = os.path.join(temp_dir, "git.diff")
+                utils.export_file(temp_file, git_diff)
+                git_diff_file = temp_file
+
+    return run_eval(github_url, git_diff_file, **kwargs)
+
+
+def run_batch_eval_parallel(predictions, max_workers=8, **kwargs) -> int:
+    """Run batch eval in parallel using multiprocessing.
+
+    `predictions` could be:
+    1. A list of `dict` with keys:
+       - `github_url`: Github url for the repo
+       - `git_diff`: Git diff content
+       - `git_diff_file`: A file containing `git_diff`
+    2. A json file containing a list as #1
+
+    Args:
+        predictions: List of predictions or path to JSON file
+        max_workers: Maximum number of worker processes. 
+        **kwargs: Additional arguments passed to run_eval
+    """
+    if isinstance(predictions, str):
+        predictions = utils.load_json(predictions) or []
+
+    if not predictions:
+        logging.info("[batch-parallel] No predictions to process.")
+        return 0
+
+    logging.info(
+        "[batch-parallel] Processing %d predictions with %d workers.",
+        len(predictions), max_workers
+    )
+
+    # Prepare data for workers
+    pred_data = [(pred, kwargs) for pred in predictions]
+    
+    count = 0
+    pool = mp.Pool(max_workers)
+    try:
+        results = pool.map(_process_single_prediction, pred_data)
+        count = sum(results)
+    except KeyboardInterrupt:
+        logging.info("Interrupted by user, shutting down...")
+        pool.terminate()  # Kill immediately
+        pool.join()       # Clean up
+    finally:
+        pool.close()      # No more tasks
+        pool.join()       # Wait for completion if not terminated
+    
+    logging.info(
+        "[batch-parallel] Final eval result: Success = %d out of %d.",
+        count, len(predictions)
+    )
+    return count
 
 
 def run_batch_eval(predictions, **kwargs) -> int:
