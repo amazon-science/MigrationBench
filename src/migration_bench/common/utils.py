@@ -172,7 +172,7 @@ def export_file(filename: str, content: str, mode: str = "w", log: bool = True):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-    with open(filename, mode) as ofile:  # pylint: disable=unspecified-encoding
+    with open(filename, mode, encoding="utf-8", errors="ignore") as ofile:
         ofile.write(content)
 
 
