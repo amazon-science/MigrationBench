@@ -270,7 +270,7 @@ without valid git diff content or file:
 
 ```bibtex
 @misc{liu2025migrationbenchrepositorylevelcodemigration,
-      title={MIGRATION-BENCH: Repository-Level Code Migration Benchmark from Java 8},
+      title={MigrationBench: Repository-Level Code Migration Benchmark from Java 8},
       author={Linbo Liu and Xinle Liu and Qiang Zhou and Lin Chen and Yihan Liu and Hoan Nguyen and Behrooz Omidvar-Tehrani and Xi Shen and Jun Huan and Omer Tripp and Anoop Deoras},
       year={2025},
       eprint={2505.09569},
