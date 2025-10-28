@@ -39,7 +39,7 @@ def _parse_args():
         "--predictions_filename",
         type=str,
         default=None,
-        help="A .json file containing `github_url` and `git_diff` content.",
+        help="A .json file containing `github_url` and `git_diff`/`migrated_root_dir`.",
     )
 
     # - Single job
@@ -51,6 +51,12 @@ def _parse_args():
         type=str,
         default=None,
         help="Filename containing git diff to evaluate.",
+    )
+    parser.add_argument(
+        "--migrated_root_dir",
+        type=str,
+        default=None,
+        help="Path to the migrated repo root directory.",
     )
 
     # Optional arguments
@@ -149,7 +155,7 @@ def main():
         eval_args = (args.predictions_filename,)
     else:
         eval_func = final_eval.run_eval
-        eval_args = (args.github_url, args.git_diff_filename)
+        eval_args = (args.github_url, args.git_diff_filename, args.migrated_root_dir)
         eval_mode = "single"
 
     count = eval_func(*eval_args, **kwargs)

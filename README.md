@@ -231,7 +231,7 @@ one can provide a `predictions` file in the `json` format.
 #### 3.3.1 Sample Predictions File
 
 For each repo,
-one needs to provide the Github url and the git diff content or file:
+one needs to provide the Github url and the git diff content/file, or the root directory to the migrated code repo:
 
 
 ```
@@ -244,6 +244,10 @@ $ cat predictions.json
   {
       "github_url": "https://github.com/0xShamil/java-xid",
       "git_diff": ""
+  }
+  {
+      "github_url": "https://github.com/0xShamil/java-xid",
+      "migrated_root_dir": "/eval/java-xid"
   }
 ]
 ```

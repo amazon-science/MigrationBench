@@ -7,6 +7,7 @@ import sys
 import tempfile
 
 import git
+import shutil
 
 from migration_bench.common import (
     eval_utils,
@@ -24,7 +25,7 @@ KEY_GITHUB_URL = "github_url"
 # - Only one is needed
 KEY_GIT_DIFF_CONTENT = "git_diff"
 KEY_GIT_DIFF_FILE = "git_diff_file"
-
+KEY_MIGRATED_ROOT_DIR = "migrated_root_dir"
 
 _JAVA_FULL = hf_utils.load_hf_dataset(
     columns=(
@@ -60,11 +61,31 @@ def alias(url: str) -> str:
     return f"{url}.git"
 
 
+def copy_contents(src_dir: str, dst_dir: str):
+    """
+    Copy all contents from src_dir into dst_dir without nesting src_dir itself.
+
+    Args:
+        src_dir (str): Path to the source directory.
+        dst_dir (str): Path to the destination directory.
+    """
+    os.makedirs(dst_dir, exist_ok=True)
+
+    for item in os.listdir(src_dir):
+        src_path = os.path.join(src_dir, item)
+        dst_path = os.path.join(dst_dir, item)
+
+        if os.path.isdir(src_path):
+            shutil.copytree(src_path, dst_path, dirs_exist_ok=True)
+        else:
+            shutil.copy2(src_path, dst_path)
+
+
 def local_final_eval(
     github_url: str,
     root_dir: str,
-    git_diff_file: str,
-    commit_id: str,
+    git_diff_file: str = None,
+    commit_id: str = None,
     # Which cmd to run
     maven_command: str = maven_utils.MVN_CLEAN_VERIFY,
     # Which set of evals to run
@@ -73,6 +94,7 @@ def local_final_eval(
     require_maximal_migration: bool = True,
     eval_num_tests: bool = True,
     eval_list_tests: bool = True,
+    lhs_branch: str = LHS_BRANCH,
 ) -> bool:
     """Run final eval given a local dir (To be modified, not read only) and git diff file.
 
@@ -81,34 +103,42 @@ def local_final_eval(
        - In case `eval_list_tests` are disabled e.g. some java modules are commented in pom.xml
     eval_list_tests: Static eval for the list of tests
     """
-    repo = git_repo.GitRepo(root_dir)
-
-    # 1. LHS: Before migration
-    if not repo.new_branch(LHS_BRANCH):
-        logging.warning(
-            "Unable to checkout branch `%s`: From commit id `%s`.",
-            LHS_BRANCH,
-            commit_id,
-        )
-
-    # 2. Verify commit id
-    commit_ids = repo.log(num=1, options=["--format='%H'"])[0].splitlines()
-    if commit_ids != [f"'{commit_id}'"]:
-        logging.warning(
-            "Commit id mismatch for `%s`: `%s` vs `%s`.",
-            root_dir,
-            commit_ids,
-            commit_id,
-        )
+    if commit_id is None:
+        logging.warning("Commit id is None for repo: `%s`.", github_url)
         return False
+    
+    # If no git diff file, lhs_branch is the base commit id
+    if git_diff_file is None:
+        lhs_branch = commit_id
+    else:
+        repo = git_repo.GitRepo(root_dir)
 
-    # 3. Apply diff
-    if git_diff_file:
-        if not os.path.exists(git_diff_file):
-            logging.warning("Unable to find file: `%s`.", git_diff_file)
+        # 1. LHS: Before migration
+        if not repo.new_branch(lhs_branch):
+            logging.warning(
+                "Unable to checkout branch `%s`: From commit id `%s`.",
+                lhs_branch,
+                commit_id,
+            )
+
+        # 2. Verify commit id
+        commit_ids = repo.log(num=1, options=["--format='%H'"])[0].splitlines()
+        if commit_ids != [f"'{commit_id}'"]:
+            logging.warning(
+                "Commit id mismatch for `%s`: `%s` vs `%s`.",
+                root_dir,
+                commit_ids,
+                commit_id,
+            )
             return False
 
-        repo.apply(git_diff_file)
+        # 3. Apply diff
+        if git_diff_file:
+            if not os.path.exists(git_diff_file):
+                logging.warning("Unable to find file: `%s`.", git_diff_file)
+                return False
+
+            repo.apply(git_diff_file)
 
     # 4. RHS: After migration
     #    - Build success
@@ -169,13 +199,13 @@ def local_final_eval(
         # Tests: Will **revert** all changes from the git diff file
         and (
             (not eval_list_tests)
-            or parse_repo.same_repo_test_files(root_dir, lhs_branch=LHS_BRANCH)[-1]
+            or parse_repo.same_repo_test_files(root_dir, lhs_branch=lhs_branch)[-1]
         )
     )
 
 
 def run_eval(
-    github_url: str, git_diff_file: str, commit_id: str = None, **kwargs
+    github_url: str, git_diff_file: str = None, migrated_root_dir: str = None, commit_id: str = None, **kwargs
 ) -> bool:
     """Run final eval, given github url and git diff file."""
     if commit_id is None:
@@ -186,20 +216,35 @@ def run_eval(
     if commit_id is None:
         logging.warning("Invalid commit id (None) for repo: `%s`.", github_url)
         return False
+    
+    if git_diff_file is None and migrated_root_dir is None:
+        logging.warning(
+            "Both `git_diff_file` and `migrated_root_dir` are None. Need at least one to proceed."
+        )
+        return False
+
+    if git_diff_file is not None and migrated_root_dir is not None:
+        logging.warning(
+            "Both `git_diff_file` and `migrated_root_dir` are provided. Only `git_diff_file` will be used."
+        )
 
     with tempfile.TemporaryDirectory() as temp_dir:
         try:
-            local_repo = git.Repo.clone_from(github_url, temp_dir)
+            if git_diff_file:
+                local_repo = git.Repo.clone_from(github_url, temp_dir)
+            else:
+                copy_contents(migrated_root_dir, temp_dir)
         except Exception as error:
-            logging.warning("Unable to clone `%s`: `%s`.", github_url, error)
+            logging.warning("Unable to clone/copy `%s`: `%s`.", github_url, error)
             return False
 
-        try:
-            local_repo.git.checkout(commit_id)
-        except Exception as error:
-            logging.warning(
-                "Unable to checkout id for `%s@%s`: `%s`.", github_url, commit_id, error
-            )
+        if git_diff_file:
+            try:
+                local_repo.git.checkout(commit_id)
+            except Exception as error:
+                logging.warning(
+                    "Unable to checkout id for `%s@%s`: `%s`.", github_url, commit_id, error
+                )
 
         try:
             success = local_final_eval(
@@ -214,10 +259,11 @@ def run_eval(
             )
             success = False
 
+        target = git_diff_file or migrated_root_dir
         logging.warning(
             "Final eval for `%s` (%s): Success = %s.",
             github_url,
-            git_diff_file,
+            target,
             success,
         )
 
@@ -229,6 +275,7 @@ def _process_single_prediction(pred_data):
     pred, kwargs = pred_data
     github_url = pred.get(KEY_GITHUB_URL)
     git_diff_file = pred.get(KEY_GIT_DIFF_FILE)
+    migrated_root_dir = pred.get(KEY_MIGRATED_ROOT_DIR)
     
     if git_diff_file is None:
         git_diff = pred.get(KEY_GIT_DIFF_CONTENT)
@@ -238,7 +285,7 @@ def _process_single_prediction(pred_data):
                 utils.export_file(temp_file, git_diff)
                 git_diff_file = temp_file
 
-    return run_eval(github_url, git_diff_file, **kwargs)
+    return run_eval(github_url, git_diff_file, migrated_root_dir, **kwargs)
 
 
 def run_batch_eval_parallel(predictions, max_workers=8, **kwargs) -> int:
@@ -299,6 +346,7 @@ def run_batch_eval(predictions, **kwargs) -> int:
        - `github_url`: Github url for the repo
        - `git_diff`: Git diff content
        - `git_diff_file`: A file containing `git_diff`
+       - `migrated_root_dir`: A local directory containing the migrated repo
     1. A json file containing a list as #1
 
     """
@@ -307,10 +355,11 @@ def run_batch_eval(predictions, **kwargs) -> int:
 
     count = 0
     with tempfile.TemporaryDirectory() as temp_dir:
-        temp_file = os.path.join(temp_dir, "predictions.json")
+        temp_file = os.path.join(temp_dir, "diff.patch")
 
         for pred in predictions:
             github_url = pred.get(KEY_GITHUB_URL)
+            migrated_root_dir = pred.get(KEY_MIGRATED_ROOT_DIR)
 
             git_diff_file = pred.get(KEY_GIT_DIFF_FILE)
             if git_diff_file is None:
@@ -319,7 +368,7 @@ def run_batch_eval(predictions, **kwargs) -> int:
                     utils.export_file(temp_file, git_diff)
                     git_diff_file = temp_file
 
-            count += run_eval(github_url, git_diff_file, **kwargs)
+            count += run_eval(github_url, git_diff_file, migrated_root_dir, **kwargs)
 
     logging.info(
         "[batch] Final eval result: Success = %d out of %d.", count, len(predictions)
