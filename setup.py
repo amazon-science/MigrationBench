@@ -13,6 +13,9 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
+    package_data={
+        "migration_bench": ["reference/*"],
+    },
     python_requires=">=3.9",
     install_requires=[
         "datasets>=3.0.0",
