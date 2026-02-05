@@ -67,8 +67,7 @@ markdown-toc -i README.md
 ## 1. 📖 Overview
 
 [MigrationBench](https://github.com/amazon-science/MigrationBench)
-is a library to access code migration success,
-in an automated and robust way.
+provides an automated and robust framework for evaluating code migration success.
 
 - Reference paper: [MigrationBench: Repository-Level Code Migration Benchmark from Java 8](https://arxiv.org/abs/2505.09569)
 
