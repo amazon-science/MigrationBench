@@ -284,6 +284,7 @@ def _process_single_prediction(pred_data):
                 temp_file = os.path.join(temp_dir, "git.diff")
                 utils.export_file(temp_file, git_diff)
                 git_diff_file = temp_file
+                return run_eval(github_url, git_diff_file, migrated_root_dir, **kwargs)
 
     return run_eval(github_url, git_diff_file, migrated_root_dir, **kwargs)
 
