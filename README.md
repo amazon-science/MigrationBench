@@ -12,8 +12,8 @@
       </a>
     </td>
     <td style="padding: 0;">
-      <a href="https://github.com/amazon-science/SDFeedback">
-        <img src="https://img.shields.io/badge/SDFeedback-000000?style=flatten&logo=github&logoColor=white" alt="SDFeedback (GitHub)">
+      <a href="https://github.com/amazon-science/JavaMigration">
+        <img src="https://img.shields.io/badge/JavaMigration-000000?style=flatten&logo=github&logoColor=white" alt="JavaMigration (GitHub)">
       </a>
     </td>
     <td style="padding: 0;">
@@ -48,7 +48,7 @@ markdown-toc -i README.md
 
 - [1. 📖 Overview](#1--overview)
   * [1.1 MigrationBench: Dataset and Evaluation Framework](#11-migrationbench-dataset-and-evaluation-framework)
-  * [1.2 SDFeedback: Migration with LLMs](#12-sdfeedback-migration-with-llms)
+  * [1.2 JavaMigration: Migration with LLMs](#12-javamigration-migration-with-llms)
 - [2. 🤗 MigrationBench Datasets](#2--migrationbench-datasets)
 - [3. Code Migration Evaluation](#3-code-migration-evaluation)
   * [3.1 Get Started](#31-get-started)
@@ -96,13 +96,10 @@ The evaluation is an *approximation* for functional equivalence by checking the 
    - Required for **maximal migration**
 
 
-### 1.2 [SDFeedback](https://github.com/amazon-science/SDFeedback): Migration with LLMs
+### 1.2 [JavaMigration](https://github.com/amazon-science/JavaMigration): Migration with LLMs
 
-[SDFeedback](https://github.com/amazon-science/SDFeedback)
-is a separate Github package to conduct code migration with LLMs as a baseline solution,
-and it relies on the current package for the final evaluation.
-- It builds an ECR image and then
-- It runs both code migration and final evaluation with Elastic Map Reduce (EMR) Serverless in a scalable way.
+[JavaMigration](https://github.com/amazon-science/JavaMigration)
+is a separate Github package to conduct code migration with LLMs as a baseline solution, and it relies on the current package for the final evaluation.
 
 
 ## 2. [🤗 MigrationBench](https://huggingface.co/collections/AmazonScience/migrationbench-68125452fc21a4564b92b6c3) Datasets
