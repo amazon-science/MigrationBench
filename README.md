@@ -132,7 +132,50 @@ under either minimal migration or maximal migration
 
 #### 3.1.1 Basic Setup
 
-Verify you have `java 17`, `maven 3.9.6` and `conda` (optional) locally:
+**Install Java 17 and Maven 3.9.6:**
+
+If you don't have Java 17 and Maven installed, follow these instructions:
+
+**macOS:**
+```bash
+# Install Java 17 using Homebrew
+brew install openjdk@17
+
+# Add to PATH (add to ~/.zshrc or ~/.bash_profile)
+echo 'export PATH="/usr/local/opt/openjdk@17/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# Install Maven
+brew install maven
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+# Install Java 17
+sudo apt update
+sudo apt install openjdk-17-jdk
+
+# Install Maven
+sudo apt install maven
+```
+
+**Linux (Amazon Linux/CentOS/RHEL):**
+```bash
+# Install Java 17 (Amazon Corretto)
+sudo yum install -y java-17-amazon-corretto-devel
+
+# Install Maven
+sudo wget https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+sudo tar -xzf apache-maven-3.9.6-bin.tar.gz -C /opt
+sudo ln -s /opt/apache-maven-3.9.6 /opt/maven
+echo 'export PATH=/opt/maven/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+
+**Verify Installation:**
+
+After installation, verify you have `java 17`, `maven 3.9.6` and `conda` (optional) locally:
 
 ```
 # java
