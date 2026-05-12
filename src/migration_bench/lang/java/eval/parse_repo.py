@@ -75,7 +75,7 @@ def same_repo_test_files(
     files = sorted(lhs_tests.keys())
     if files != sorted(rhs_tests.keys()):
         logging.warning("File mismatch: `%s` => `%s`.", files, sorted(rhs_tests.keys()))
-        return False, len(lhs_tests)
+        return False, len(lhs_tests), None
 
     issues = []
     test_issues = []
