@@ -19,6 +19,8 @@ FILE_00_LINE_NO_CHANGE = "./testdata/AstParser.java"
 
 FILE_01 = "../native/src/main/java/qct/XmlBeautifier.java"
 FILE_02 = "./testdata/LabelManager.java"
+FILE_03 = "./testdata/Status.java"
+FILE_04 = "./testdata/Marker.java"
 
 
 class TestParseFile(unittest.TestCase):
@@ -76,6 +78,26 @@ class TestParseFile(unittest.TestCase):
                     ("interface", "LabelManager"),
                     ("method", ("setLocale", False)),
                     ("method", ("get", False)),
+                ),
+            ),
+            # Top-level enum with constants overriding an abstract method.
+            # Pre-fix: raised "Unable to find out class for method `describe`".
+            (
+                FILE_03,
+                {},
+                (
+                    ("enum", "Status"),
+                    ("method", ("describe", False)),
+                    ("method", ("describe", False)),
+                    ("method", ("describe", False)),
+                ),
+            ),
+            # Top-level annotation declaration.
+            (
+                FILE_04,
+                {},
+                (
+                    ("annotation", "Marker"),
                 ),
             ),
         )

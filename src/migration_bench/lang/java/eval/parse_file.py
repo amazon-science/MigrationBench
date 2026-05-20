@@ -9,6 +9,8 @@ from migration_bench.common import utils
 
 CLASS = "class"
 INTERFACE = "interface"
+ENUM = "enum"
+ANNOTATION = "annotation"
 METHOD = "method"
 
 METHOD_ANNOTATION_TEST = "Test"
@@ -34,6 +36,12 @@ def get_classes_and_methods(filename: str, content: str = None, add_line: bool =
         elif isinstance(node, javalang.tree.InterfaceDeclaration):
             current_class = node.name
             nodes.append((INTERFACE, current_class))
+        elif isinstance(node, javalang.tree.EnumDeclaration):
+            current_class = node.name
+            nodes.append((ENUM, current_class))
+        elif isinstance(node, javalang.tree.AnnotationDeclaration):
+            current_class = node.name
+            nodes.append((ANNOTATION, current_class))
         elif isinstance(node, javalang.tree.MethodDeclaration):
             if not current_class:
                 raise ValueError(
