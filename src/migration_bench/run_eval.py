@@ -20,12 +20,26 @@ GIT_DIFF_FILE=
 python run_eval.py --github_url $GITHUB_URL --git_diff_filename $GIT_DIFF_FILE
 ```
 
+
+2. Docker mode (single job)
+
+```
+python run_eval.py --github_url $GITHUB_URL --git_diff_filename $GIT_DIFF_FILE --use_docker
+```
+
+
+3. Docker mode (batch job)
+
+```
+python run_eval.py --predictions_filename $PREDICTIONS --use_docker
+```
+
 """
 
 import argparse
 import logging
 
-from migration_bench.common import utils
+from migration_bench.common import docker_utils, utils
 from migration_bench.eval import final_eval
 
 
@@ -107,6 +121,16 @@ def _parse_args():
         default=1,
         help="Maximum number of worker processes for parallel batch evaluation. Use 1 for sequential processing.",
     )
+    parser.add_argument(
+        "--use_docker",
+        action="store_true",
+        help="Run evaluation inside Docker containers for isolation and consistency.",
+    )
+    parser.add_argument(
+        "--build_docker_image",
+        action="store_true",
+        help="Build the Docker image before running evaluation. Only used with --use_docker.",
+    )
 
     return parser.parse_known_args()
 
@@ -125,6 +149,21 @@ def _maybe_update(config, key, value):
 def main():
     """Main."""
     args, _ = _parse_args()
+
+    # Docker mode setup
+    if args.use_docker:
+        if not docker_utils.is_docker_available():
+            logging.error("Docker is not available. Please install Docker first.")
+            logging.error("See: https://docs.docker.com/get-docker/")
+            return
+
+        # Build image if requested or if it doesn't exist
+        if args.build_docker_image or not docker_utils.check_image_exists():
+            logging.info("Building Docker image...")
+            if not docker_utils.build_docker_image():
+                logging.error("Failed to build Docker image. Exiting.")
+                return
+            logging.info("Docker image built successfully.")
 
     kwargs = {
         "require_maximal_migration": args.is_maximal_migration,
@@ -145,18 +184,28 @@ def main():
     _maybe_update(kwargs, "maven_command", args.maven_command)
 
     if args.predictions_filename:
-        if args.max_workers > 1:
+        if args.use_docker:
+            eval_func = docker_utils.run_batch_eval_in_docker
+            kwargs["max_workers"] = args.max_workers
+            eval_mode = "batch-docker"
+            eval_args = (args.predictions_filename,)
+        elif args.max_workers > 1:
             eval_func = final_eval.run_batch_eval_parallel
             kwargs["max_workers"] = args.max_workers
             eval_mode = "batch-parallel"
+            eval_args = (args.predictions_filename,)
         else:
             eval_func = final_eval.run_batch_eval
             eval_mode = "batch"
-        eval_args = (args.predictions_filename,)
+            eval_args = (args.predictions_filename,)
     else:
-        eval_func = final_eval.run_eval
+        if args.use_docker:
+            eval_func = docker_utils.run_eval_in_docker
+            eval_mode = "single-docker"
+        else:
+            eval_func = final_eval.run_eval
+            eval_mode = "single"
         eval_args = (args.github_url, args.git_diff_filename, args.migrated_root_dir)
-        eval_mode = "single"
 
     count = eval_func(*eval_args, **kwargs)
     logging.info(
