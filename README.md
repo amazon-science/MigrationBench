@@ -51,15 +51,16 @@ markdown-toc -i README.md
   * [1.2 JavaMigration: Migration with LLMs](#12-javamigration-migration-with-llms)
 - [2. 🤗 MigrationBench Datasets](#2--migrationbench-datasets)
 - [3. Code Migration Evaluation](#3-code-migration-evaluation)
-  * [3.1 Get Started](#31-get-started)
-    + [3.1.1 Basic Setup](#311-basic-setup)
-    + [3.1.2 Install MigrationBench](#312-install-migrationbench)
-  * [3.2 Single Eval](#32-single-eval)
-    + [3.2.1 Unsuccessful Eval](#321-unsuccessful-eval)
-    + [3.2.2 Successful Eval](#322-successful-eval)
-  * [3.3 Batch Eval](#33-batch-eval)
-    + [3.3.1 Sample Predictions File](#331-sample-predictions-file)
-    + [3.3.2 Run Batch Eval](#332-run-batch-eval)
+  * [3.1 Docker Mode (Recommended)](#31-docker-mode-recommended)
+    + [3.1.1 Setup Docker](#311-setup-docker)
+    + [3.1.2 Single Repository Evaluation](#312-single-repository-evaluation)
+    + [3.1.3 Batch Evaluation](#313-batch-evaluation)
+  * [3.2 Local Mode](#32-local-mode)
+    + [3.2.1 Install Java and Maven](#321-install-java-and-maven)
+    + [3.2.2 Install MigrationBench](#322-install-migrationbench)
+    + [3.2.3 Single Repository Evaluation](#323-single-repository-evaluation)
+    + [3.2.4 Batch Evaluation](#324-batch-evaluation)
+  * [3.3 Predictions File Format](#33-predictions-file-format)
 - [4. 📚 Citation](#4--citation)
 
 <!-- tocstop -->
@@ -116,196 +117,173 @@ There are three datasets in [🤗 MigrationBench](https://huggingface.co/collect
 
 ## 3. Code Migration Evaluation
 
-We support running code migration evaluation for MigrationBench in two modes:
-1. Single eval mode: For a single repository and
-2. Batch eval mode: For multiple repositories
+MigrationBench supports two evaluation modes:
 
+1. **Docker Mode (Recommended)**: Runs evaluations in isolated Docker containers. No need to install Java or Maven locally.
+2. **Local Mode**: Runs evaluations directly on your machine. Requires Java 17 and Maven 3.9.6 installed locally.
 
-### 3.1 Get Started
+### 3.1 Docker Mode (Recommended)
 
-To get started with code migration evaluation from `java 8` to `17`,
-under either minimal migration or maximal migration
-(See the [arXiv paper](https://arxiv.org/abs/2505.09569) for the definition):
+Docker mode provides a consistent evaluation environment without requiring local Java/Maven installation. Each evaluation runs in an isolated container, making it ideal for batch processing and reproducible results.
 
-#### 3.1.1 Basic Setup
+**Benefits:**
+- ✅ No local Java/Maven installation needed
+- ✅ Consistent environment across different machines
+- ✅ Parallel execution (multiple containers)
+- ✅ Easy setup and onboarding
 
-**Install Java 17 and Maven 3.9.6:**
+#### 3.1.1 Setup
 
-If you don't have Java 17 and Maven installed, follow these instructions:
+**1. Install Docker:**
 
-**macOS:**
+Follow the official Docker installation guide:
+- **macOS**: https://docs.docker.com/desktop/install/mac-install/
+- **Windows**: https://docs.docker.com/desktop/install/windows-install/
+- **Linux**: https://docs.docker.com/engine/install/
+
+**2. Verify Docker:**
 ```bash
-# Install Java 17 using Homebrew
-brew install openjdk@17
-
-# Add to PATH (add to ~/.zshrc or ~/.bash_profile)
-echo 'export PATH="/usr/local/opt/openjdk@17/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-
-# Install Maven
-brew install maven
+docker --version
 ```
 
-**Linux (Ubuntu/Debian):**
+**3. Install MigrationBench:**
 ```bash
-# Install Java 17
-sudo apt update
-sudo apt install openjdk-17-jdk
-
-# Install Maven
-sudo apt install maven
-```
-
-**Linux (Amazon Linux/CentOS/RHEL):**
-```bash
-# Install Java 17 (Amazon Corretto)
-sudo yum install -y java-17-amazon-corretto-devel
-
-# Install Maven
-sudo wget https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
-sudo tar -xzf apache-maven-3.9.6-bin.tar.gz -C /opt
-sudo ln -s /opt/apache-maven-3.9.6 /opt/maven
-echo 'export PATH=/opt/maven/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
-```
-
-
-**Verify Installation:**
-
-After installation, verify you have `java 17`, `maven 3.9.6` and `conda` (optional) locally:
-
-```
-# java
-~ $ java --version
-openjdk 17.0.15 2025-04-15 LTS
-OpenJDK Runtime Environment Corretto-17.0.15.6.1 (build 17.0.15+6-LTS)
-OpenJDK 64-Bit Server VM Corretto-17.0.15.6.1 (build 17.0.15+6-LTS, mixed mode, sharing)
-```
-
-```
-# maven
-~ $ mvn --version
-Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
-Maven home: /usr/local/bin/apache-maven-3.9.6
-Java version: 17.0.15, vendor: Amazon.com Inc., runtime: /usr/lib/jvm/java-17-amazon-corretto.x86_64
-Default locale: en_US, platform encoding: UTF-8
-OS name: "linux", version: "5.10.236-208.928.amzn2int.x86_64", arch: "amd64", family: "unix"
-```
-
-```
-# conda (Optional)
-$ conda --version
-conda 25.1.1
-```
-
-#### 3.1.2 Install [MigrationBench](https://github.com/amazon-science/MigrationBench)
-
-```
 git clone https://github.com/amazon-science/MigrationBench.git
-
 cd MigrationBench
-
-# They're optional if one doesn't need a conda env
-# export CONDA_ENV=migration-bench
-# conda create -n $CONDA_ENV python=3.9
-# conda activate $CONDA_ENV
 
 pip install -r requirements.txt -e .
 ```
 
-Next,
-to run a single job or a batch of jobs,
-refer to file level comments in `src/migraiton_bench/run_eval.py`.
+**That's it!** The Docker image will be built automatically on first run.
 
 
-### 3.2 Single Eval
+#### 3.1.2 Single Repository Evaluation
 
-To run eval for a single repository,
-provide the Github url,
-a git diff file and optionally more flags:
+To run a single repository evaluation in Docker:
 
-
-#### 3.2.1 Unsuccessful Eval
-```
-# cd .../src/migraiton_bench
-
+```bash
 GITHUB_URL=https://github.com/0xShamil/java-xid
-GIT_DIFF_FILE=...
+GIT_DIFF_FILE=/path/to/java-xid.diff
+
+python run_eval.py --github_url $GITHUB_URL --git_diff_filename $GIT_DIFF_FILE --use_docker
+```
+
+**Evaluate with a migrated repository directory:**
+```bash
+MIGRATED_DIR=/path/to/migrated/repo
+python run_eval.py --github_url $GITHUB_URL --migrated_root_dir $MIGRATED_DIR --use_docker
+```
+
+**Force rebuild the Docker image:**
+```bash
+python run_eval.py --github_url $GITHUB_URL --git_diff_filename $GIT_DIFF_FILE --use_docker --build_docker_image
+```
+
+#### 3.1.3 Batch Evaluation
+
+To run batch evaluations in Docker:
+
+```bash
+PREDICTIONS=predictions.json
+
+# Run batch evaluation in Docker
+python run_eval.py --predictions_filename $PREDICTIONS --use_docker
+```
+
+**With parallel processing (recommended for large batches):**
+```bash
+# Run 8 Docker containers in parallel (each evaluates one repo)
+python run_eval.py --predictions_filename $PREDICTIONS --use_docker --max_workers 8
+```
+
+**Important Notes:**
+- File paths in the predictions file should be **absolute paths** on your host system
+- The Docker container will automatically mount these paths as read-only volumes
+- Each repository is evaluated in its own isolated container
+- Docker mode automatically handles environment isolation and cleanup
+
+### 3.2 Local Mode
+
+Local mode runs evaluations directly on your machine. This requires Java 17 and Maven 3.9.6 installed locally.
+
+#### 3.2.1 Install Java and Maven
+
+**Install Java 17:**
+
+- **macOS**: `brew install openjdk@17`
+- **Ubuntu/Debian**: `sudo apt-get install openjdk-17-jdk`
+- **Windows**: Download from https://adoptium.net/
+
+**Install Maven 3.9.6:**
+
+- **macOS**: `brew install maven`
+- **Ubuntu/Debian**: `sudo apt-get install maven`
+- **Windows**: Download from https://maven.apache.org/download.cgi
+
+**Verify installations:**
+```bash
+java -version  # Should show version 17
+mvn -version   # Should show version 3.9.6
+```
+
+#### 3.2.2 Install MigrationBench
+
+```bash
+git clone https://github.com/amazon-science/MigrationBench.git
+cd MigrationBench
+
+pip install -r requirements.txt -e .
+```
+
+#### 3.2.3 Single Repository Evaluation
+
+```bash
+GITHUB_URL=https://github.com/0xShamil/java-xid
+GIT_DIFF_FILE=/path/to/java-xid.diff
 
 python run_eval.py --github_url $GITHUB_URL --git_diff_filename $GIT_DIFF_FILE
 ```
 
-One may see the following output,
-as the git diff file is invalid:
 
-```
-...
-[single] Migration success (count) `False`: `('https://github.com/0xShamil/java-xid', '...')`.
-...
-```
+#### 3.2.4 Batch Evaluation
 
-#### 3.2.2 Successful Eval
+```bash
+PREDICTIONS=predictions.json
 
-```
-python run_eval.py --github_url $GITHUB_URL --require_compiled_java_major_version 52
+# Sequential processing
+python run_eval.py --predictions_filename $PREDICTIONS
+
+# Parallel processing (8 workers)
+python run_eval.py --predictions_filename $PREDICTIONS --max_workers 8
 ```
 
-By redirecting the code migration target to `java 8`
-(through `require_compiled_java_major_version = 52`),
-it should succeed without any code changes:
+### 3.3 Predictions File Format
 
-```
-...
-[single] Migration success (count) `True`: `('https://github.com/0xShamil/java-xid', None)`.
-...
-```
+For batch evaluation (both Docker and Local modes), provide a predictions file in JSON format.
 
+For each repository, specify the GitHub URL and **one** of the following:
 
-### 3.3 Batch Eval
+1. **`git_diff_file`**: Path to a file containing the git diff
+2. **`git_diff`**: Git diff content as a string (can be empty for no changes)
+3. **`migrated_root_dir`**: Absolute path to the migrated repository directory
 
-To run eval for in batch mode for multiple repositories,
-one can provide a `predictions` file in the `json` format.
+**Example `predictions.json`:**
 
-
-#### 3.3.1 Sample Predictions File
-
-For each repo,
-one needs to provide the Github url and the git diff content/file, or the root directory to the migrated code repo:
-
-
-```
-$ cat predictions.json
+```json
 [
   {
-      "github_url": "https://github.com/0xShamil/java-xid",
-      "git_diff_file": "eval/testdata/java-xid.diff"
+    "github_url": "https://github.com/0xShamil/java-xid",
+    "git_diff_file": "/absolute/path/to/java-xid.diff"
   },
   {
-      "github_url": "https://github.com/0xShamil/java-xid",
-      "git_diff": ""
-  }
+    "github_url": "https://github.com/0xShamil/java-xid",
+    "git_diff": "diff --git a/pom.xml b/pom.xml\n--- a/pom.xml\n+++ b/pom.xml\n..."
+  },
   {
-      "github_url": "https://github.com/0xShamil/java-xid",
-      "migrated_root_dir": "/eval/java-xid"
+    "github_url": "https://github.com/0xShamil/java-xid",
+    "migrated_root_dir": "/absolute/path/to/migrated/java-xid"
   }
 ]
-```
-
-#### 3.3.2 Run Batch Eval
-```
-# cd .../src/migraiton_bench
-
-PREDICTIONS=predictions.json
-python run_eval.py --predictions_filename $PREDICTIONS  # --require_compiled_java_major_version 52
-```
-
-One may see the following output,
-without valid git diff content or file:
-
-```
-...
-[batch] Final eval result: Success = 0 out of 2.
-...
 ```
 
 

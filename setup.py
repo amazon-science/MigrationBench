@@ -1,9 +1,14 @@
 """Install library."""
 
+import os
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+# Read README.md if it exists, otherwise use short description
+long_description = "MigrationBench: Repository-Level Code Migration Benchmark"
+readme_path = os.path.join(os.path.dirname(__file__), "README.md")
+if os.path.exists(readme_path):
+    with open(readme_path, "r") as fh:
+        long_description = fh.read()
 
 setup(
     name="MigrationBench",
@@ -21,10 +26,8 @@ setup(
         "datasets>=3.0.0",
         "gitpython>=3.1.0",
         "javalang>=0.13.0",
-        "numpy>=1.26.0",
         "parameterized>=0.8.0",
         "protobuf>=3.20.0",
-        "pydantic>=2.0.0",
         "pylint>=2.14.0",
         "pytz>=2024.1",
         "packaging>=21.0",
