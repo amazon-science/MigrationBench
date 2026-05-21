@@ -7,10 +7,10 @@ import javalang
 from migration_bench.common import utils
 
 
-CLASS = "class"
-INTERFACE = "interface"
-ENUM = "enum"
 ANNOTATION = "annotation"
+CLASS = "class"
+ENUM = "enum"
+INTERFACE = "interface"
 METHOD = "method"
 
 METHOD_ANNOTATION_TEST = "Test"
