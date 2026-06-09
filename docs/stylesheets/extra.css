@@ -1,0 +1,208 @@
+/* Leaderboard table styling */
+.md-typeset table:not([class]) {
+    font-size: 0.65rem;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
+    display: table;
+    min-width: 1000px;
+}
+
+.md-typeset table:not([class]) th {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    font-weight: 600;
+    padding: 0.4rem 0.5rem;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0.6rem;
+    line-height: 1.1;
+    border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) td {
+    padding: 0.35rem 0.4rem;
+    text-align: center;
+    font-size: 0.65rem;
+    white-space: nowrap;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* Specific column widths for leaderboard - optimized to fit without scroll */
+.leaderboard-page table:not([class]) th:nth-child(1),
+.leaderboard-page table:not([class]) td:nth-child(1) {
+    width: 4% !important;
+    min-width: 35px !important;
+    max-width: 35px !important;
+    overflow: visible;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(2),
+.leaderboard-page table:not([class]) td:nth-child(2) {
+    width: 10% !important;
+    min-width: 180px !important;
+    max-width: 180px !important;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(3),
+.leaderboard-page table:not([class]) td:nth-child(3) {
+    width: 5% !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(4),
+.leaderboard-page table:not([class]) td:nth-child(4) {
+    width: 9% !important;
+    min-width: 75px !important;
+    max-width: 75px !important;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(5),
+.leaderboard-page table:not([class]) td:nth-child(5) {
+    width: 5%;
+    min-width: 95px;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(6),
+.leaderboard-page table:not([class]) td:nth-child(6) {
+    width: 5%;
+    min-width: 105px;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(7),
+.leaderboard-page table:not([class]) td:nth-child(7) {
+    width: 5%;
+    min-width: 70px;
+}
+
+.leaderboard-page table:not([class]) th:nth-child(8),
+.leaderboard-page table:not([class]) td:nth-child(8) {
+    width: 9%;
+    min-width: 30px;
+}
+
+/* Make ONLY leaderboard page wider */
+.leaderboard-page {
+    max-width: 100% !important;
+    width: 100%;
+}
+
+.leaderboard-page .md-typeset {
+    max-width: none !important;
+}
+
+/* Override default content width for leaderboard - use almost full viewport */
+.md-content:has(.leaderboard-page) {
+    max-width: 98vw !important;
+    padding: 0 1vw;
+}
+
+.md-content:has(.leaderboard-page) .md-content__inner {
+    max-width: 100% !important;
+    padding: 0;
+}
+
+/* Hide sidebar on leaderboard page for more space */
+@media screen and (min-width: 76.25em) {
+    .md-sidebar--primary:has(~ .md-content .leaderboard-page) {
+        display: none;
+    }
+}
+
+/* Rank column highlighting */
+.md-typeset table:not([class]) td:first-child {
+    font-weight: 700;
+    color: var(--md-primary-fg-color);
+}
+
+/* Team logo sizing */
+.md-typeset table:not([class]) td img {
+    max-height: 18px !important;
+    height: 18px !important;
+    width: auto !important;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Datasets page table column widths */
+article:not(.leaderboard-page) table:not([class]) th:nth-child(1),
+article:not(.leaderboard-page) table:not([class]) td:nth-child(1) {
+    width: 15%;
+}
+
+article:not(.leaderboard-page) table:not([class]) th:nth-child(2),
+article:not(.leaderboard-page) table:not([class]) td:nth-child(2) {
+    width: 10%;
+    min-width: 80px;
+}
+
+article:not(.leaderboard-page) table:not([class]) th:nth-child(3),
+article:not(.leaderboard-page) table:not([class]) td:nth-child(3) {
+    width: 45%;
+}
+
+article:not(.leaderboard-page) table:not([class]) th:nth-child(4),
+article:not(.leaderboard-page) table:not([class]) td:nth-child(4) {
+    width: 15%;
+}
+
+/* Badge container */
+.badges {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.badges img {
+    height: 20px;
+}
+
+/* Medal emojis for top 3 - ONLY on leaderboard page */
+.leaderboard-page table tbody tr:nth-child(1) td:first-child::before {
+    content: "🥇 ";
+}
+
+.leaderboard-page table tbody tr:nth-child(2) td:first-child::before {
+    content: "🥈 ";
+}
+
+.leaderboard-page table tbody tr:nth-child(3) td:first-child::before {
+    content: "🥉 ";
+}
+
+/* Add spacing for ranks 4+ to align with medal emoji width - ONLY on leaderboard page */
+.leaderboard-page table tbody tr:nth-child(n+4) td:first-child {
+    padding-left: 1.2rem;
+}
+
+/* Hover effect for table rows */
+.md-typeset table:not([class]) tbody tr:hover {
+    background-color: var(--md-default-fg-color--lightest);
+}
+
+/* Code block improvements */
+.highlight {
+    margin: 1.5rem 0;
+}
+
+/* Metric highlighting */
+.metric-high {
+    color: #4caf50;
+    font-weight: 600;
+}
+
+.metric-medium {
+    color: #ff9800;
+    font-weight: 600;
+}
+
+.metric-low {
+    color: #f44336;
+    font-weight: 600;
+}

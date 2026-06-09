@@ -210,15 +210,34 @@ Local mode runs evaluations directly on your machine. This requires Java 17 and 
 
 **Install Java 17:**
 
-- **macOS**: `brew install openjdk@17`
-- **Ubuntu/Debian**: `sudo apt-get install openjdk-17-jdk`
-- **Windows**: Download from https://adoptium.net/
+```
+# Install OpenJDK 17
+sudo apt update
+sudo apt install -y openjdk-17-jdk
+
+# Verify installation
+java --version
+```
 
 **Install Maven 3.9.6:**
 
-- **macOS**: `brew install maven`
-- **Ubuntu/Debian**: `sudo apt-get install maven`
-- **Windows**: Download from https://maven.apache.org/download.cgi
+```
+# Download and install Maven
+curl -O https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
+unzip apache-maven-3.9.6-bin.zip
+sudo mv apache-maven-3.9.6 /opt/
+
+# Create symlinks
+sudo ln -s /opt/apache-maven-3.9.6 /opt/maven # for MAVEN_HOME
+sudo ln -s /opt/apache-maven-3.9.6/bin/mvn /usr/local/bin/mvn # so mvn works without PATH setup
+
+# Clean up
+rm apache-maven-3.9.6-bin.zip
+
+# Verify installation
+mvn --version
+```
+
 
 **Verify installations:**
 ```bash
@@ -275,14 +294,24 @@ For each repository, specify the GitHub URL and **one** of the following:
     "github_url": "https://github.com/0xShamil/java-xid",
     "git_diff_file": "/absolute/path/to/java-xid.diff"
   },
+]
+```
+or
+```json
+[
   {
     "github_url": "https://github.com/0xShamil/java-xid",
     "git_diff": "diff --git a/pom.xml b/pom.xml\n--- a/pom.xml\n+++ b/pom.xml\n..."
   },
+]
+```
+or
+```json
+[
   {
     "github_url": "https://github.com/0xShamil/java-xid",
     "migrated_root_dir": "/absolute/path/to/migrated/java-xid"
-  }
+  },
 ]
 ```
 
