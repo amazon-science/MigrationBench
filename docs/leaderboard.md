@@ -42,11 +42,8 @@ This page tracks the performance of various models and approaches on the Migrati
 
 ## Submission Guidelines
 
-*[Coming Soon]*
-
-### Submission Template
-
-*[Coming Soon]*
+For detailed submission instructions and templates, please visit:
+[https://github.com/amazon-science/MigrationBench/tree/submission](https://github.com/amazon-science/MigrationBench/tree/submission)
 
 
 ---
