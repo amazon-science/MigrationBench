@@ -21,19 +21,9 @@
         <img src="https://img.shields.io/badge/arXiv-2505.09569-b31b1b.svg?style=flatten" alt="MigrationBench (arXiv)">
       </a>
     </td>
-    <td style="padding: 0; padding-left: 10px; vertical-align: middle;">
-      <a href="https://huggingface.co/datasets/AmazonScience/migration-bench-java-full">
-        <img src="https://img.shields.io/badge/-🤗 java--full-8a98ff?style=flat&labelColor" alt="java-full">
-      </a>
-    </td>
-    <td style="padding: 0; vertical-align: middle;">
-      <a href="https://huggingface.co/datasets/AmazonScience/migration-bench-java-selected">
-        <img src="https://img.shields.io/badge/-🤗 java--selected-8a98ff?style=flat&labelColor" alt="java-selected">
-      </a>
-    </td>
-    <td style="padding: 0; vertical-align: middle;">
-      <a href="https://huggingface.co/datasets/AmazonScience/migration-bench-java-utg">
-        <img src="https://img.shields.io/badge/-🤗 java--utg-8a98ff?style=flat&labelColor" alt="java-utg">
+    <td style="padding: 0;">
+      <a href="https://amazon-science.github.io/MigrationBench">
+        <img src="https://img.shields.io/badge/📖_Docs-Site-4d9eff?style=flatten" alt="Documentation Site">
       </a>
     </td>
   </tr>
