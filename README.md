@@ -309,13 +309,11 @@ or
 ## 4. 📚 Citation
 
 ```bibtex
-@misc{liu2025migrationbenchrepositorylevelcodemigration,
-      title={MigrationBench: Repository-Level Code Migration Benchmark from Java 8},
-      author={Linbo Liu and Xinle Liu and Qiang Zhou and Lin Chen and Yihan Liu and Hoan Nguyen and Behrooz Omidvar-Tehrani and Xi Shen and Jun Huan and Omer Tripp and Anoop Deoras},
-      year={2025},
-      eprint={2505.09569},
-      archivePrefix={arXiv},
-      primaryClass={cs.SE},
-      url={https://arxiv.org/abs/2505.09569},
+@inproceedings{liu2026migrationbench,
+  title={Migrationbench: Repository-level code migration benchmark from java 8},
+  author={Liu, Linbo and Liu, Xinle and Zhou, Qiang and Chen, Lin and Liu, Yihan and Nguyen, Hoan and Tehrani, Behrooz Omidvar and Shen, Xi and Huan, Jun and Tripp, Omer and others},
+  booktitle={Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2},
+  pages={9427--9438},
+  year={2026}
 }
 ```
