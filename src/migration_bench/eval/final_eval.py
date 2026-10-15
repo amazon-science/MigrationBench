@@ -196,7 +196,7 @@ def local_final_eval(
             or (require_num_tests < 0)
             or (num_tests is not None and num_tests >= require_num_tests)
         )
-        # Tests: Will **revert** all changes from the git diff file
+        # Tests: Compare against test files committed in `lhs_branch`, across all modules
         and (
             (not eval_list_tests)
             or parse_repo.same_repo_test_files(root_dir, lhs_branch=lhs_branch)[-1]
