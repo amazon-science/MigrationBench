@@ -1,17 +1,62 @@
 """Parse java repo test files."""
 
+import fnmatch
 import logging
 import os
+import subprocess
 import sys
+from typing import Dict, Iterator, Optional, Sequence
 
-from migration_bench.common import git_repo, utils
+from migration_bench.common import utils
 from migration_bench.lang.java.eval import parse_file
 
-TEST_FILES = r"\*.java"
+TEST_FILES = "*.java"
 TEST_SUB_DIR = "src/test"
 
 LHS_BRANCH = "ported"
 RHS_BRANCH = None
+
+
+def _is_test_file(path: str, test_sub_dir: str, test_files: str) -> bool:
+    """Whether a repo-relative path is a test file, in the root or any module."""
+    return f"/{test_sub_dir}/" in f"/{path}" and fnmatch.fnmatch(
+        os.path.basename(path), test_files
+    )
+
+
+def _working_tree_files(root_dir: str) -> Iterator[str]:
+    """Repo-relative paths of all files in the working tree, excluding `.git`."""
+    for dir_path, dir_names, file_names in os.walk(root_dir):
+        dir_names[:] = [d for d in dir_names if d != ".git"]
+        for file_name in file_names:
+            yield os.path.relpath(os.path.join(dir_path, file_name), root_dir)
+
+
+def _git_output(root_dir: str, command: Sequence[str]) -> Optional[bytes]:
+    """Run a read-only git command, returning stdout or None on failure."""
+    try:
+        # Ignore `git replace` refs so a branch always resolves to its own objects.
+        result = subprocess.run(
+            ["git", "--no-replace-objects"] + list(command),
+            cwd=root_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except OSError as error:
+        logging.warning("Unable to run git %s in `%s`: `%s`.", command, root_dir, error)
+        return None
+
+    if result.returncode != 0:
+        logging.warning(
+            "Unable to run git %s in `%s`: `%s`.",
+            command,
+            root_dir,
+            result.stderr.decode(errors="ignore").strip(),
+        )
+        return None
+
+    return result.stdout
 
 
 def get_repo_test_files(
@@ -19,24 +64,39 @@ def get_repo_test_files(
     branch: str = None,
     test_sub_dir: str = TEST_SUB_DIR,
     test_files: str = TEST_FILES,
-):
-    """Get test files for their classes and methods."""
-    test_files = utils.find_files(os.path.join(root_dir, test_sub_dir), test_files)
+) -> Optional[Dict[str, tuple]]:
+    """Get test files for their classes and methods.
 
-    repo = git_repo.GitRepo(root_dir)
-    if branch is not None:
-        repo.checkout(branch)
+    With `branch=None`, read the working tree. Otherwise, list and read the files
+    committed in `branch` from git objects, without checking it out, so files
+    deleted from the working tree are still found. Returns None if `branch`
+    cannot be read.
+    """
+    if branch is None:
+        return {
+            os.path.join(root_dir, path): parse_file.get_classes_and_methods(
+                os.path.join(root_dir, path)
+            )
+            for path in sorted(_working_tree_files(root_dir))
+            if _is_test_file(path, test_sub_dir, test_files)
+        }
 
-        repo.clean()
-        repo.restore()
-
-    logging.info(repo.branch())
-    logging.info(repo.status())
+    listing = _git_output(root_dir, ["ls-tree", "-r", "-z", "--name-only", branch])
+    if listing is None:
+        return None
 
     repo_tests = {}
-    for test_file in test_files:
-        # Without line no by default
-        repo_tests[test_file] = parse_file.get_classes_and_methods(test_file)
+    for path in sorted(listing.decode(errors="ignore").split("\0")):
+        if not path or not _is_test_file(path, test_sub_dir, test_files):
+            continue
+
+        content = _git_output(root_dir, ["show", f"{branch}:{path}"])
+        if content is None:
+            return None
+
+        repo_tests[os.path.join(root_dir, path)] = parse_file.get_classes_and_methods(
+            path, content=content.decode(errors="ignore")
+        )
 
     return repo_tests
 
@@ -61,10 +121,18 @@ def same_repo_test_files(
         if early_stop:
             return True, None, None
 
-    # NOTE: Run rhs first, as the branch name might be None.
     rhs_tests = get_repo_test_files(root_dir, rhs_branch, **kwargs)
-
     lhs_tests = get_repo_test_files(root_dir, lhs_branch, **kwargs)
+
+    if lhs_tests is None or rhs_tests is None:
+        logging.warning(
+            "Unable to read test files: `%s` (%s) vs `%s` (%s).",
+            lhs_branch,
+            lhs_tests is not None,
+            rhs_branch,
+            rhs_tests is not None,
+        )
+        return False, None, False
 
     if len(lhs_tests) != len(rhs_tests):
         logging.warning(
